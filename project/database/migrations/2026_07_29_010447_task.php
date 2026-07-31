@@ -17,7 +17,7 @@ return new class extends Migration
                 ->constrained('projects', 'id')->onDelete('cascade');
             $table->string('title');
             $table->string('description');
-            $table->enum('status', ['todo', 'in_progress', 'done,']);
+            $table->enum('status', ['todo', 'in_progress', 'done']);
             $table->enum('priority', ['low', 'medium', 'high']);
             $table->dateTime('due_date');
             $table->boolean('deleted')->default(false);

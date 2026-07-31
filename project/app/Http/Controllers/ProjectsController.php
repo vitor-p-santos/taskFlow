@@ -25,7 +25,7 @@ class ProjectsController extends Controller
     $projects = $this->projectService->get();
 
     $projectResource = $projects ? ProjectResource::collection($projects) : [];
-
+    
     return $this->success('projects found', 200, $projectResource);
   }
 

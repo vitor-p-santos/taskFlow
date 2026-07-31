@@ -41,6 +41,73 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Task::factory()->create([
+            'project_id' => $project1->id,
+            'title' => 'Configurar ambiente',
+            'description' => 'Instalar dependências iniciais',
+            'status' => 'todo',
+            'priority' => 'high',
+            'due_date' => '1999-05-12'
+        ]);
+
+        Task::factory()->create([
+            'project_id' => $project1->id,
+            'title' => 'Configurar ambiente',
+            'description' => 'Instalar dependências iniciais',
+            'status' => 'todo',
+            'priority' => 'high',
+            'due_date' => '1999-05-12'
+        ]);
+
+        Task::factory()->create([
+            'project_id' => $project1->id,
+            'title' => 'Configurar ambiente',
+            'description' => 'Instalar dependências iniciais',
+            'status' => 'todo',
+            'priority' => 'high',
+            'due_date' => '1999-05-12'
+        ]);
+
+        Task::factory()->create([
+            'project_id' => $project2->id,
+            'title' => 'Esboçar wireframes',
+            'description' => 'Criar telas iniciais do sistema',
+            'status' => 'done',
+            'priority' => 'low',
+            'due_date' => '1999-05-12'
+        ]);
+        Task::factory()->create([
+            'project_id' => $project2->id,
+            'title' => 'Esboçar wireframes',
+            'description' => 'Criar telas iniciais do sistema',
+            'status' => 'in_progress',
+            'priority' => 'high',
+            'due_date' => '1999-05-12'
+        ]);
+        Task::factory()->create([
+            'project_id' => $project2->id,
+            'title' => 'Esboçar wireframes',
+            'description' => 'Criar telas iniciais do sistema',
+            'status' => 'todo',
+            'priority' => 'high',
+            'due_date' => '1999-05-12'
+        ]);
+        Task::factory()->create([
+            'project_id' => $project2->id,
+            'title' => 'Esboçar wireframes',
+            'description' => 'Criar telas iniciais do sistema',
+            'status' => 'todo',
+            'priority' => 'high',
+            'due_date' => '1999-05-12'
+        ]);
+        Task::factory()->create([
+            'project_id' => $project2->id,
+            'title' => 'Esboçar wireframes',
+            'description' => 'Criar telas iniciais do sistema',
+            'status' => 'todo',
+            'priority' => 'high',
+            'due_date' => '1999-05-12'
+        ]);
+        Task::factory()->create([
             'project_id' => $project2->id,
             'title' => 'Esboçar wireframes',
             'description' => 'Criar telas iniciais do sistema',
