@@ -26,4 +26,12 @@ COPY --from=frontend /app/public/build ./public/build
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN composer install
+
+COPY /entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+# Mantém o comando padrão para iniciar o PHP-FPM
+CMD ["php-fpm"]
