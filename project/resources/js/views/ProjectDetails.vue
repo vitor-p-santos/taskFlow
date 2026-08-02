@@ -52,13 +52,13 @@ const debounceLoadTasks = () => {
   clearTimeout(timer)
 
   timer = setTimeout(() => {
-    
-  }, 300)
+    loadTasks()  
+  }, 800)
 }
 
 watch(
   [filterStatus, filterPriority, dueDate],
-  debounceLoadTasks
+  () =>debounceLoadTasks()
 )
 
 

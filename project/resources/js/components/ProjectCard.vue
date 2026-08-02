@@ -44,7 +44,8 @@ const getStatusClass = (status: string) => {
         </span>
       </div>
 
-      <p class="text-sm font-normal text-neutral-400 line-clamp-2 mb-6 leading-relaxed">
+      <p
+        class="text-sm font-normal text-neutral-400 max-h-10 hover:max-h-50 overflow-hidden transition-all duration-500 ease-in-out mb-6">
         {{ project.description }}
       </p>
 

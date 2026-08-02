@@ -47,7 +47,7 @@ class TaskService
       $queryBuilder->overdue();
     }
 
-    return $queryBuilder->orderBy('id', 'desc')->cursorPaginate(3);
+    return $queryBuilder->orderBy('id', 'desc')->cursorPaginate(9);
   }
   public function create(array $data)
   {

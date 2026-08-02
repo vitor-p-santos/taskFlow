@@ -3,7 +3,6 @@
 namespace App\Domain\Projects\Repository;
 
 use App\Models\Project;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class ProjectRepository
@@ -17,7 +16,9 @@ class ProjectRepository
 
     public function all()
     {
-        return $this->model->withCount('tasks')->orderBy('id', 'desc')->cursorPaginate(6);
+        return $this->model->withCount('tasks')
+            ->orderBy('id', 'desc')
+            ->cursorPaginate(9);
     }
     public function find(int $id): Project|null
     {

@@ -83,6 +83,7 @@ const getOverDue = (date: string): string => {
               <option value="done" class="bg-neutral-900 text-emerald-400">Concluído</option>
             </select>
           </div>
+
           <div class="flex items-center justify-between">
             <label for="priority" class="text-xs uppercase tracking-wider text-neutral-500">
               Prioridade
@@ -103,7 +104,7 @@ const getOverDue = (date: string): string => {
               ]">
               <option value="low" class="bg-neutral-900 text-neutral-200">Baixa</option>
               <option value="medium" class="bg-neutral-900 text-amber-400"">Média</option>
-            <option value=" high" class="bg-neutral-900 text-red-300">Alta</option>
+            <option value="high" class="bg-neutral-900 text-red-300">Alta</option>
 
             </select>
           </div>
@@ -115,7 +116,7 @@ const getOverDue = (date: string): string => {
           <p class="mb-2 py-2 text-xs uppercase tracking-wider text-center text-neutral-500 border-b border-neutral-800">
             Descrição
           </p>
-          <p class="text-sm text-neutral-400 leading-relaxed whitespace-pre-wrap">
+          <p class="text-sm text-neutral-400 leading-relaxed">
             {{ task.description }}
           </p>
         </div>

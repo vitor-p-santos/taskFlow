@@ -29,7 +29,7 @@ class NewTaskRequest extends FormRequest
             'description' => 'required|string|min:5|max:255',
             'status' => ['required', Rule::enum(StatusTask::class)],
             'priority' => ['required', Rule::enum(PriorityTask::class)],
-            'due_date' => 'required|date',
+            'due_date' => 'required|date|after_or_equal:today',
         ];
     }
 
@@ -59,6 +59,7 @@ class NewTaskRequest extends FormRequest
 
             'due_date.required' => 'A data de vencimento é obrigatória.',
             'due_date.date' => 'A data de vencimento deve ser uma data válida.',
+            'due_date.after_or_equal' => 'A data de vencimento não pode ser uma data passada.',
         ];
     }
 }

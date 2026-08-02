@@ -10,7 +10,7 @@ export function useProjects() {
     loading,
     error,
     nextUrl,
-    prevUrl
+    prevUrl,
   } = storeToRefs(store)
 
   const fetchProjects = async (url = '/api/projects') => {
@@ -57,6 +57,12 @@ export function useProjects() {
 
       if (!response.ok) {
         throw resp.errors
+      }
+
+      projects.value.unshift(data)
+
+      if (projects.value.length > 9) {
+        projects.value.pop()
       }
 
       return resp.message
