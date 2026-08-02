@@ -26,7 +26,18 @@ class ProjectsController extends Controller
 
     $projectResource = $projects ? ProjectResource::collection($projects) : [];
     
-    return $this->success('projects found', 200, $projectResource);
+    return $this->success(
+      'Projects found',
+      200,
+      ProjectResource::collection($projects)->collection,
+      [
+        'next_cursor'    => optional($projects->nextCursor())->encode(),
+        'next_page_url'  => $projects->nextPageUrl(),
+        'prev_cursor'    => optional($projects->previousCursor())->encode(),
+        'prev_page_url'  => $projects->previousPageUrl(),
+        'has_more'       => $projects->hasMorePages(),
+      ]
+    );
   }
 
   public function store(NewProjectRequest $req): JsonResponse

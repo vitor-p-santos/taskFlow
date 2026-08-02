@@ -15,9 +15,9 @@ class ProjectRepository
         $this->model = $model;
     }
 
-    public function all(): Collection
+    public function all()
     {
-        return $this->model->withCount('tasks')->get();
+        return $this->model->withCount('tasks')->orderBy('id', 'desc')->cursorPaginate(6);
     }
     public function find(int $id): Project|null
     {

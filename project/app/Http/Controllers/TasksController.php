@@ -39,7 +39,13 @@ class TasksController
 
     $taskResource = TaskResource::collection($data);
 
-    return $this->success('tasks found', 200, $taskResource);
+    return $this->success('tasks found', 200, $taskResource,    [
+      'next_cursor'    => optional($data->nextCursor())->encode(),
+      'next_page_url'  => $data->nextPageUrl(),
+      'prev_cursor'    => optional($data->previousCursor())->encode(),
+      'prev_page_url'  => $data->previousPageUrl(),
+      'has_more'       => $data->hasMorePages(),
+    ]);
   }
   public function store(NewTaskRequest $req, int $id)
   {

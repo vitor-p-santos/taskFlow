@@ -4,11 +4,12 @@ namespace App\Trait;
 
 trait ResponseTrait
 {
-  public function success(string $message, int $statusCode = 200, $data = null)
+  public function success(string $message, int $statusCode = 200, $data = null, array $meta = [])
   {
     $response = [
       'success' => true,
       'message' => $message,
+      'meta' => $meta,
     ];
 
     if (!empty($data)) {

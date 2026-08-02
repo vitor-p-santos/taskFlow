@@ -1,65 +1,67 @@
-import { ref } from 'vue'
+import { useProjectsStore } from '../stores/ProjectStore'
+import { storeToRefs } from 'pinia'
+import { Project } from '../types/projectType'
 
-export interface Project {
-  id: number
-  name: string
-  status: string
-  description: string
-  created_at: string
-  tasks_count: number
-}
+export function useProjects() {
+  const store = useProjectsStore()
 
-export const useProjects = () => {
-  const projects = ref<Project[] | []>([])
-  const loading = ref(false)
-  const error = ref<string | null>(null)
+  const {
+    projects,
+    loading,
+    error,
+    nextUrl,
+    prevUrl
+  } = storeToRefs(store)
 
-  const fetchProjects = async () => {
-    loading.value = true
-    error.value = null
+  const fetchProjects = async (url = '/api/projects') => {
+    store.loading = true
+    store.error = null
 
     try {
-      const response = await fetch('/api/projects')
-
-      if (!response.ok) {
-        throw new Error('Falha ao buscar projetos.')
-      }
+      const response = await fetch(url, {
+        headers: {
+          Accept: 'application/json'
+        }
+      })
 
       const resp = await response.json()
-      projects.value = resp.data
+
+      if (!response.ok) {
+        throw new Error(resp.message || 'Falha ao buscar projetos.')
+      }
+
+      store.projects = resp.data
+      store.nextUrl = resp.meta.next_page_url
+      store.prevUrl = resp.meta.prev_page_url
 
     } catch (err) {
       console.error(err)
+      store.error = err instanceof Error ? err.message : 'Erro desconhecido'
     } finally {
-      loading.value = false
+      store.loading = false
     }
   }
 
   const newProject = async (data: Project) => {
-    loading.value = true
-    error.value = null
-
     try {
       const response = await fetch('/api/projects', {
-        method: 'post',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          Accept: 'application/json'
         },
         body: JSON.stringify(data)
       })
 
+      const resp = await response.json()
+
       if (!response.ok) {
-        throw new Error('Falha ao criar projeto.')
+        throw resp.errors
       }
 
-      const resp = await response.json()
-      projects.value = resp.data
-      fetchProjects()
+      return resp.message
     } catch (err) {
-      console.error(err)
-    } finally {
-      loading.value = false
+      throw err
     }
   }
 
@@ -67,6 +69,8 @@ export const useProjects = () => {
     projects,
     loading,
     error,
+    nextUrl,
+    prevUrl,
     fetchProjects,
     newProject
   }
