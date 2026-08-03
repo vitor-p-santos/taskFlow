@@ -20,8 +20,12 @@ else
 fi
 
 if [ -f ".env" ]; then
-    echo "🔑 Gerando chave da aplicação..."
-    php artisan key:generate
+      if grep -q "^APP_KEY=.*" .env; then
+        echo "🔑 APP_KEY já existe"
+    else
+        echo "🔑 Gerando chave da aplicação..."
+        php artisan key:generate
+    fi
 fi
 
 echo "🔒 Ajustando permissões das pastas storage e bootstrap/cache..."

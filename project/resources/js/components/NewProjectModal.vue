@@ -72,7 +72,6 @@ const handleFormSubmit = () => {
         </span>
       </div>
 
-      <!-- Campo Descrição -->
       <div class="flex flex-col gap-1.5">
         <label for="description"
           class="text-xs font-semibold uppercase tracking-wider text-neutral-300">Descrição</label>
@@ -81,7 +80,6 @@ const handleFormSubmit = () => {
           class="text-white bg-neutral-800/80 border rounded-xl px-3.5 py-2.5 text-sm placeholder:text-neutral-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/80 transition-all resize-none"
           :class="error?.description ? 'border-red-500' : 'border-neutral-700/80'"></textarea>
 
-        <!-- Span de erro para a 'description' -->
         <span v-if="error?.description" class="text-red-400 text-xs">
           {{ error.description[0] }}
         </span>

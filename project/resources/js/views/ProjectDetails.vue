@@ -1,18 +1,27 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue'
 import Loading from '../components/Loading.vue'
-import { useTask } from '../composables/useTask.ts'
+import { useTasksStore } from '../stores/TaskStore.ts'
 import { useRoute, useRouter } from 'vue-router'
 import NewTaskModal from '../components/NewTaskModal.vue'
 import { Task } from '../types/Task'
 import NavBar from '../layouts/NavBar.vue'
 import TaskCard from '../components/TaskCard.vue'
 import Filter from '../layouts/Filter.vue'
-import Swal from 'sweetalert2'
 import { successToast, errorToast } from '../lib/toast.ts'
 import { ArrowLeft } from 'lucide-vue-next'
+import { storeToRefs } from 'pinia'
 
-const { tasks, loading, error, nextUrl, prevUrl, fetchTask, newTask, patchTask, deleteTask } = useTask()
+const taskStore = useTasksStore()
+
+const {
+  tasks,
+  loading,
+  error,
+  nextUrl,
+  prevUrl,
+} = storeToRefs(taskStore)
+
 
 const route = useRoute()
 const router = useRouter()
@@ -32,7 +41,7 @@ const patchLoadingId = ref<number | null>(null)
 const loadingTaskId = ref<number | null>(null)
 
 const loadTasks = () => {
-  fetchTask({
+  taskStore.load({
     id: projectId,
     filters: {
       status: filterStatus.value,
@@ -64,13 +73,13 @@ watch(
 
 const handleNextPage = () => {
   if (nextUrl.value) {
-    fetchTask({ id: projectId, url: nextUrl.value })
+    taskStore.load({ id: projectId, url: nextUrl.value })
   }
 }
 
 const handlePrevPage = () => {
   if (prevUrl.value) {
-    fetchTask({ id: projectId, url: prevUrl.value })
+    taskStore.load({ id: projectId, url: prevUrl.value })
   }
 }
 
@@ -80,7 +89,7 @@ const handleCreateTask = async (taskData: Task) => {
   modalError.value = null
 
   try {
-    await newTask({ projectId, taskData })
+    await taskStore.create( projectId, taskData )
     isOpen.value = false
     successToast('tarefa criada')
 
@@ -118,11 +127,11 @@ const handlePatch = async ({
       }, 800);
     });
 
-    await patchTask({ taskId, patchData })
+    await taskStore.patch( taskId, patchData )
     successToast('Conteúdo atualizado!');
   } catch (err) {
-    errorToast('erro');
-
+    errorToast(err instanceof Error ? err.message : 'Falha ao atualizar');
+    
     taskFind.status = oldValueStatus
     taskFind.priority = oldValueProproty
   } finally {
@@ -134,12 +143,11 @@ const handleDelete = async (taskId: number) => {
 
   loadingTaskId.value = taskId
   try {
-    await deleteTask(taskId)
+    await taskStore.remove(taskId)
     successToast('tarefa deletada');
   } catch (err) {
-    errorToast('erro');
+    errorToast(err instanceof Error ? err.message : 'Falha ao deletar');
   } finally {
-
     loadingTaskId.value = null
   }
 }

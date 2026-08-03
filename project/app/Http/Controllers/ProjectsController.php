@@ -6,6 +6,7 @@ use App\Domain\Projects\Requests\NewProjectRequest;
 use App\Domain\Projects\Resources\ProjectResource;
 use App\Domain\Projects\Services\{NewProjectService, ProjectService};
 use App\Trait\ResponseTrait;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 
 class ProjectsController extends Controller
@@ -24,8 +25,6 @@ class ProjectsController extends Controller
   {
     $projects = $this->projectService->get();
 
-    $projectResource = $projects ? ProjectResource::collection($projects) : [];
-    
     return $this->success(
       'Projects found',
       200,

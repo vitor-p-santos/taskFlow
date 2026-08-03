@@ -62,7 +62,6 @@ const handleFormSubmit = () => {
         </span>
       </div>
 
-      <!-- Status e Prioridade -->
       <div class="flex flex-row gap-4 w-full">
         <div class="flex flex-col gap-1.5 flex-1">
           <label for="status" class="text-xs font-semibold uppercase tracking-wider text-neutral-300">Status</label>
@@ -94,7 +93,6 @@ const handleFormSubmit = () => {
         </div>
       </div>
 
-      <!-- Descrição -->
       <div class="flex flex-col gap-1.5">
         <label for="description"
           class="text-xs font-semibold uppercase tracking-wider text-neutral-300">Descrição</label>

@@ -1,83 +1,37 @@
-import { useProjectsStore } from '../stores/ProjectStore'
-import { storeToRefs } from 'pinia'
 import { Project } from '../types/projectType'
 
-export function useProjects() {
-  const store = useProjectsStore()
+export async function fetchProjects(url = '/api/projects') {
+  const response = await fetch(url, {
+    headers: {
+      Accept: 'application/json',
+    },
+  })
 
-  const {
-    projects,
-    loading,
-    error,
-    nextUrl,
-    prevUrl,
-  } = storeToRefs(store)
+  const resp = await response.json()
 
-  const fetchProjects = async (url = '/api/projects') => {
-    store.loading = true
-    store.error = null
-
-    try {
-      const response = await fetch(url, {
-        headers: {
-          Accept: 'application/json'
-        }
-      })
-
-      const resp = await response.json()
-
-      if (!response.ok) {
-        throw new Error(resp.message || 'Falha ao buscar projetos.')
-      }
-
-      store.projects = resp.data
-      store.nextUrl = resp.meta.next_page_url
-      store.prevUrl = resp.meta.prev_page_url
-
-    } catch (err) {
-      console.error(err)
-      store.error = err instanceof Error ? err.message : 'Erro desconhecido'
-    } finally {
-      store.loading = false
-    }
+  if (!response.ok) {
+    
+    throw new Error('Por favor tente novamente mais tarde!')
   }
 
-  const newProject = async (data: Project) => {
-    try {
-      const response = await fetch('/api/projects', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
+  return resp
+}
 
-      const resp = await response.json()
+export async function createProject(data: Project) {
+  const response = await fetch('/api/projects', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
 
-      if (!response.ok) {
-        throw resp.errors
-      }
+  const resp = await response.json()
 
-      projects.value.unshift(data)
-
-      if (projects.value.length > 9) {
-        projects.value.pop()
-      }
-
-      return resp.message
-    } catch (err) {
-      throw err
-    }
+  if (!response.ok) {
+    throw resp.errors || resp.message
   }
 
-  return {
-    projects,
-    loading,
-    error,
-    nextUrl,
-    prevUrl,
-    fetchProjects,
-    newProject
-  }
+  return resp
 }

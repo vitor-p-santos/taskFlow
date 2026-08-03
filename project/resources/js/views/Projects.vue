@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import { storeToRefs } from 'pinia'
+
 import Card from '../components/ProjectCard.vue'
 import ProjectModal from '../components/NewProjectModal.vue'
 import Loading from '../components/Loading.vue'
-import { useProjects } from '../composables/useProjects'
 import NavBar from '../layouts/NavBar.vue'
+
+import { useProjectsStore } from '../stores/ProjectStore'
 import { Project } from '../types/projectType'
 import { errorToast, successToast } from '../lib/toast'
+
+const projectStore = useProjectsStore()
 
 const {
   projects,
@@ -14,27 +19,28 @@ const {
   error,
   prevUrl,
   nextUrl,
-  fetchProjects,
-  newProject
-} = useProjects()
+} = storeToRefs(projectStore)
+
 
 const isOpen = ref(false)
 const modalError = ref<any>(null)
 const modalLoading = ref(false)
 
 onMounted(() => {
-  fetchProjects()
+  console.log('montando');
+  
+  projectStore.load()
 })
 
 const handleNextPage = () => {
   if (nextUrl.value) {
-    fetchProjects(nextUrl.value)
+    projectStore.load( nextUrl.value )
   }
 }
 
 const handlePrevPage = () => {
   if (prevUrl.value) {
-    fetchProjects(prevUrl.value)
+    projectStore.load( prevUrl.value )
   }
 }
 
@@ -43,14 +49,13 @@ const handleCreateProject = async (projectData: Project) => {
   modalError.value = null
 
   try {
-    await newProject(projectData)
+    await projectStore.add(projectData)
 
     isOpen.value = false
     successToast('Novo projeto adicionado')
-
   } catch (err) {
-    errorToast('Erro ao criar projeto')
     modalError.value = err
+    errorToast('Erro ao criar projeto')
   } finally {
     modalLoading.value = false
   }
@@ -72,7 +77,7 @@ const handleClose = () => {
       </div>
 
       <div v-else-if="error"
-        class="bg-red-950/40 border border-red-900/50 text-red-300 px-4 py-3 rounded-xl mb-6 text-sm">
+        class="text-center bg-red-950/40 border border-red-900/50 text-red-300 px-4 py-3 rounded-xl mb-6 text-sm">
         {{ error }}
       </div>
 

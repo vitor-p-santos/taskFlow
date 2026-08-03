@@ -173,13 +173,27 @@ docker compose up -d --build
 Após a criação dos containers, execute os testes:
 
 ```bash
-docker exec -it laravel_app php artisan migrate --seed
+docker exec -it app php artisan migrate --seed
 ```
 
 Para rodar teste
 
 ```bash
-docker exec -it laravel_app php artisan test
+docker exec -it app php artisan test
+```
+Para rodar teste do vue.js
+
+> [!NOTE]
+> Ao rodar o comando abaixo, isso vai matar a prioridade do container node, sendo obrigado a rodar em seguida o **restart**
+
+```bash
+docker exec -it node npm test
+```
+
+Ao terminar o test, use o comando abaixo
+
+```bash
+docker restart node
 ```
 
 ## 💻 Executando sem Docker
@@ -236,4 +250,21 @@ npm run dev
 
 ```bash
 php artisan test
+```
+10. Execute os testes da aplicação no vue.js:
+
+* altere no arquivo `project/resources/js/tests/projectList.spec.ts` o `apiUrl.docker` para `apiUrl.local`
+
+```js
+const apiUrl = {
+  docker: 'http://nginx:80', 
+  local: 'http://localhost:8000'
+}
+
+const projects = await fetchProjects(`${apiUrl.docker}/api/projects`)
+
+```
+
+```bash
+npm test
 ```

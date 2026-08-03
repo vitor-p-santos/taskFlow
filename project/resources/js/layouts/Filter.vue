@@ -19,7 +19,6 @@ defineEmits<{
     <div class="bg-neutral-900 border border-neutral-800/80 rounded-2xl p-4 sm:p-5 shadow-xl flex flex-wrap items-center justify-between gap-4">
 
       <div class="flex flex-wrap items-center gap-4 w-full lg:w-auto">
-        <!-- Status Filter -->
         <div class="flex items-center gap-2">
           <label for="status-filter" class="text-xs font-medium text-neutral-400 shrink-0">Status:</label>
           <select 
@@ -37,7 +36,6 @@ defineEmits<{
           
         </div>
 
-        <!-- Priority Filter -->
         <div class="flex items-center gap-2">
           <label for="priority-filter" class="text-xs font-medium text-neutral-400 shrink-0">Prioridade:</label>
           <select 
@@ -54,7 +52,6 @@ defineEmits<{
         </div>
       </div>
 
-      <!-- Due Date Checkbox -->
       <div class="flex items-center gap-2.5">
         <input 
           id="hide-completed" 

@@ -2,6 +2,7 @@
     "private": true,
     "type": "module",
     "scripts": {
+        "test": "vitest run",
         "build": "vite build",
         "dev": "vite"
     },
@@ -12,7 +13,8 @@
         "concurrently": "^9.0.1",
         "laravel-vite-plugin": "^1.2.0",
         "tailwindcss": "^4.3.3",
-        "vite": "^6.0.11"
+        "vite": "^6.0.11",
+        "vitest": "^4.1.10"
     },
     "dependencies": {
         "lucide-vue-next": "^1.0.0",

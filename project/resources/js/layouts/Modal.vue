@@ -17,14 +17,14 @@ const close = () => {
 
 <template>
   <div v-if="isOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4">
-    <!-- Backdrop -->
+    
     <div class="fixed inset-0 bg-black/70 backdrop-blur-xs transition-opacity" @click="!loading && close()"></div>
 
-    <!-- Modal Box -->
+    
     <div
       class="relative z-10 w-full max-w-md rounded-2xl bg-neutral-900 p-6 shadow-2xl border border-neutral-800 flex flex-col gap-6">
 
-      <!-- Header -->
+    
       <div class="flex items-center justify-between">
         <div>
           <h3 class="text-lg font-semibold text-white tracking-wide">{{ title }}</h3>
