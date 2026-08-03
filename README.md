@@ -110,24 +110,29 @@ Localizado dentro do diretório resources/, concentra toda a camada reativa e SP
 ## 🧠 Decisões Técnicas & Novas Ideias
 
 ### 💡 Decisões implementadas
-* Regra de negocio separada por dominio - Dentro da pasta /Domain está separado a regra de cada dominio [task, project] onde tem seus models, services, exceptions, formRequest, repository, Enum e actions assim evitando codigo bagunçado
 
-* Uso de interfaces dentro de `app/Interfaces` sendo contratos para actions e repositories.
+* Regra de negócio separada por domínio - Dentro da pasta `app/Domain` cada domínio (`Task` e `Project`) possui sua própria estrutura contendo `Models`, `Services`, `Repositories`, `Actions`, `FormRequests`, `Enums` e `Exceptions`, deixando o código mais organizado e de fácil manutenção.
 
-* Infraestrutura montada no `docker` - facilitando testes e instalação.
+* Uso de interfaces dentro de `app/Interfaces` como contratos para `Repositories` e `Actions`, facilitando a manutenção e futuras implementações.
 
-* adição do parametro 'due_date=true' na rota `GET` | `/api/projects/{id}/tasks`.
+* Infraestrutura montada com **Docker**, facilitando a instalação do projeto e garantindo um ambiente de desenvolvimento padronizado.
+
+* Adição do parâmetro `due_date=true` na rota `GET /api/projects/{id}/tasks`, permitindo ordenar as tarefas pela data de vencimento.
 
 * Montagem de components e layouts reutilizaveis no frontend.
 
 ### 🚀 Ideias de Próximas Implementações (Roadmap)
-*   [ ] **Alteração de status e Filtro de busca e exclusão de projetos:** - Possibilitando alterar entre ativo, arquivado, Sendo possivel excluir projeto e filtrar por status e/ou nome. 
 
-*   [ ] **Modal para edição de campos como nome e descrição de projetos e tasks:** - assim não travando o usuário e o obrigando a criar o projeto com nome correto e tasks deletadas por falta de informação.
++ [ ] **Gerenciamento de status dos projetos**
+  - Permitir alterar o status entre **Ativo** e **Arquivado**.
+  - Implementar exclusão de projetos.
+  - Adicionar filtros por **status** e **nome**.
 
-*   [ ] **Autenticação:** - criar telas de login/register usando tokens do laravel sanctum, tanto para uso web como para implementação de acesso mobile.
+*   [ ] **Modal para edição de campos como nome e descrição de projetos e tasks:** - assim não travando o usuário e o obrigando a criar um projeto e/ou tasks por falta de informação.
 
-*   [ ] **Notificações de vencimento:** - Notificação por e-mail das tarefas que estão próximas do vencimento em um formato de lista evitando envio ecessivo de e-mails.
+*   [ ] **Autenticação:**  - Implementar autenticação utilizando **Laravel Sanctum**, com telas de login e cadastro para acesso via web e suporte futuro para aplicações mobile.
+
+*   [ ] **Notificações de vencimento:**   - Enviar notificações por e-mail com uma lista de tarefas próximas do vencimento, evitando o envio excessivo de mensagens.
 
 ## ⚙️ Instalação e Inicialização
 
