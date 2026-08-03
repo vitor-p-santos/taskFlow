@@ -274,7 +274,7 @@ const projects = await fetchProjects(`${apiUrl.docker}/api/projects`)
 
 ```
 
-* em seguida rode o abaixo
+* em seguida rode o abaixo e deixe o php artisan serve rodando
 
 ```bash
 npm test
