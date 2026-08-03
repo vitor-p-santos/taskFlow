@@ -41,6 +41,7 @@ const patchLoadingId = ref<number | null>(null)
 const loadingTaskId = ref<number | null>(null)
 
 const loadTasks = () => {
+  
   taskStore.load({
     id: projectId,
     filters: {
@@ -59,15 +60,16 @@ let timer: ReturnType<typeof setTimeout>
 
 const debounceLoadTasks = () => {
   clearTimeout(timer)
-
+  
   timer = setTimeout(() => {
-    loadTasks()  
+    
+    loadTasks()
   }, 800)
 }
 
 watch(
   [filterStatus, filterPriority, dueDate],
-  () =>debounceLoadTasks()
+  () => debounceLoadTasks()
 )
 
 
@@ -89,7 +91,7 @@ const handleCreateTask = async (taskData: Task) => {
   modalError.value = null
 
   try {
-    await taskStore.create( projectId, taskData )
+    await taskStore.create(projectId, taskData)
     isOpen.value = false
     successToast('tarefa criada')
 
@@ -127,11 +129,11 @@ const handlePatch = async ({
       }, 800);
     });
 
-    await taskStore.patch( taskId, patchData )
+    await taskStore.patch(taskId, patchData)
     successToast('Conteúdo atualizado!');
   } catch (err) {
     errorToast(err instanceof Error ? err.message : 'Falha ao atualizar');
-    
+
     taskFind.status = oldValueStatus
     taskFind.priority = oldValueProproty
   } finally {
@@ -152,6 +154,13 @@ const handleDelete = async (taskId: number) => {
   }
 }
 
+const handleClearFilter = () => {
+  filterStatus.value = ''
+  filterPriority.value = ''
+  dueDate.value = false
+
+}
+
 const handleClose = () => {
   isOpen.value = false
   modalError.value = null
@@ -168,7 +177,7 @@ const handleClose = () => {
       </button>
     </NavBar>
 
-    <Filter v-model:status="filterStatus" v-model:priority="filterPriority" v-model:due-date="dueDate" />
+    <Filter v-model:status="filterStatus" v-model:priority="filterPriority" v-model:due-date="dueDate" v-on:clear-filter="handleClearFilter" />
 
     <main class="max-w-7xl mx-auto px-4 py-4">
       <div v-if="loading">
