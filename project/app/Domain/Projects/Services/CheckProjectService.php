@@ -4,10 +4,11 @@ namespace App\Domain\Projects\Services;
 
 use App\Domain\Projects\Repository\ProjectRepository;
 use App\Exceptions\NotFound;
+use App\Interfaces\RepositoryInterface;
 
 class CheckProjectService
 {
-  protected ProjectRepository $projectRepository;
+  protected RepositoryInterface $projectRepository;
 
   public function __construct(ProjectRepository $projectRepository)
   {

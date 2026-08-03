@@ -2,10 +2,11 @@
 
 namespace App\Domain\Projects\Repository;
 
+use App\Interfaces\RepositoryInterface;
 use App\Models\Project;
 use Illuminate\Database\Eloquent\Model;
 
-class ProjectRepository
+class ProjectRepository implements RepositoryInterface
 {
     protected Model $model;
 
@@ -20,6 +21,12 @@ class ProjectRepository
             ->orderBy('id', 'desc')
             ->cursorPaginate(9);
     }
+
+    public function get(int $id, array $data)
+    {
+        //
+    }
+    
     public function find(int $id): Project|null
     {
         return $this->model->find($id);

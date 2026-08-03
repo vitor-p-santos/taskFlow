@@ -8,13 +8,17 @@ use App\Domain\Tasks\Actions\PatchAction;
 use App\Domain\Tasks\Enum\DueDateBoolean;
 use App\Domain\Tasks\Enum\PriorityTask;
 use App\Domain\Tasks\Enum\StatusTask;
+use App\Domain\Tasks\Repository\TaskRepository;
 use App\Interfaces\ActionByIdInterface;
 use App\Interfaces\ActionInterface;
+use App\Interfaces\RepositoryInterface;
 use App\Models\Task;
 use Carbon\Carbon;
 
 class TaskService
 {
+
+  protected RepositoryInterface $repository;
 
   protected ActionInterface $newAction;
   protected ActionByIdInterface $patchAction;
@@ -24,30 +28,18 @@ class TaskService
   public function __construct(
     NewAction $newAction,
     PatchAction $patchAction,
-    DeleteAction $deleteAction
+    DeleteAction $deleteAction,
+   TaskRepository $taskRepository
   ) {
     $this->newAction = $newAction;
     $this->patchAction = $patchAction;
     $this->deleteAction = $deleteAction;
+    $this->repository = $taskRepository;
   }
 
   public function all(int $id, array $query)
   {
-    $queryBuilder = Task::where('project_id', $id)->where('deleted', false);
-
-    if (StatusTask::tryFrom(data_get($query, 'status'))) {
-      $queryBuilder->where('status', $query['status']);
-    }
-
-    if (PriorityTask::tryFrom(data_get($query, 'priority'))) {
-      $queryBuilder->where('priority', $query['priority']);
-    }
-
-    if (DueDateBoolean::tryFrom(data_get($query, 'due_date'))) {
-      $queryBuilder->overdue();
-    }
-
-    return $queryBuilder->orderBy('id', 'desc')->cursorPaginate(9);
+    return $this->repository->get($id, $query);
   }
   public function create(array $data)
   {

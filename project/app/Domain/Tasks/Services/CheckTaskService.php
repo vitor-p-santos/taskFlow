@@ -5,10 +5,11 @@ namespace App\Domain\Tasks\Services;
 use App\Domain\Tasks\Exceptions\TaskDeleted;
 use App\Domain\Tasks\Repository\TaskRepository;
 use App\Exceptions\NotFound;
+use App\Interfaces\RepositoryInterface;
 
 class CheckTaskService
 {
-  protected TaskRepository $repository;
+  protected RepositoryInterface $repository;
 
   public function __construct(TaskRepository $taskRepository)
   {

@@ -62,11 +62,12 @@ Este projeto foi montado para simplificar o gerenciamento de projetos e tarefas 
 
 O ecossistema foi construído integrando tecnologias consolidadas para garantir uma aplicação robusta no servidor e reativa na interface:
 
-*   **Linguagem Principal:** [PHP](https://www.php.net/) – Linguagem server-side que dá vida a toda a lógica de negócios do backend.
-*   **Backend Framework:** [Laravel](https://laravel.com/) – Framework PHP utilizado para a construção de uma API REST segura, estruturada e escalável.
-*   **Frontend Framework:** [Vue.js](https://vuejs.org/) – Framework JavaScript progressivo e reativo responsável por entregar uma interface de usuário fluida e de alta performance.
-*   **Estilização & UI:** [Tailwind CSS](https://tailwindcss.com/) – Framework CSS utilitário utilizado para o desenvolvimento de um design moderno, limpo e totalmente responsivo.
-*   **Banco de Dados:** [MySQL 8](https://www.mysql.com/) – Banco de dados relacional robusto utilizado para a persistência ágil e segura de todas as informações.
+*   **Linguagem Principal:** [PHP](https://www.php.net/)
+*   **Backend Framework:** [Laravel](https://laravel.com/)
+*   **Frontend Framework:** [Vue.js](https://vuejs.org/)
+*   **Estilização & UI:** [Tailwind CSS](https://tailwindcss.com/)
+*   **Banco de Dados:** [MySQL 8](https://www.mysql.com/)
+*   **Infraestrutura:** [Docker](https://www.docker.com/)
 
 ## 🏗️ Arquitetura do Projeto
 
@@ -108,14 +109,25 @@ Localizado dentro do diretório resources/, concentra toda a camada reativa e SP
 
 ## 🧠 Decisões Técnicas & Novas Ideias
 
-### 💡 Por que essa arquitetura?
-*   **Domain-Driven Architecture (Mentalidade):** A criação da pasta `app/Domain` foi pensada para isolar as regras de negócio puras da infraestrutura do Laravel. Isso evita que os *Controllers* fiquem inflados e centraliza a lógica de alteração de estados e validações complexas.
-*   **Padrão Repository/Interfaces:** O uso de `app/Interfaces` garante o desacoplamento do banco de dados. Caso amanhã o projeto mude de MySQL para um banco NoSQL, a camada de controle/Visão não sofre impacto, bastando apenas criar uma nova implementação da interface.
+### 💡 Decisões implementadas
+* Regra de negocio separada por dominio - Dentro da pasta /Domain está separado a regra de cada dominio [task, project] onde tem seus models, services, exceptions, formRequest, repository, Enum e actions assim evitando codigo bagunçado
+
+* Uso de interfaces dentro de `app/Interfaces` sendo contratos para actions e repositories
+
+* Infraestrutura montada no `docker` - facilitando testes e instalação.
+
+* adição do parametro 'due_date=true' na rota `GET` | `/api/projects/{id}/tasks`
+
+* Montagem de components e layouts reutilizaveis no frontend
 
 ### 🚀 Ideias de Próximas Implementações (Roadmap)
-*   [ ] **Notificações em Tempo Real:** Implementar Laravel Reverb ou WebSockets para atualizar a lista de tarefas de outros membros do time sem necessidade de F5.
-*   [ ] **Autenticação Multi-Tenant:** Separar os projetos por workspaces de empresas ou times específicos utilizando Laravel Sanctum.
-*   [ ] **Gráficos de Produtividade:** Adicionar uma aba de *Analytics* no frontend com Vue para exibir gráficos de burndown e performance das tarefas concluídas.
+*   [ ] **Alteração de status e Filtro de busca e exclusão de projetos:** - Possibilitando alterar entre ativo, arquivado, Sendo possivel excluir projeto e filtrar por status e/ou nome. 
+
+*   [ ] **Modal para edição de campos como nome e descrição de projetos e tasks:** - assim não travando o usuário e o obrigando a criar o projeto com nome correto e tasks deletadas por falta de informação.
+
+*   [ ] **Autenticação:** - criar telas de login/register usando tokens do laravel sanctum, tanto para uso web como para implementação de acesso mobile
+
+*   [ ] **Notificações de vencimento:** - Notificação por e-mail das tarefas que estão próximas do vencimento em um formato de lista evitando envio ecessivo de e-mails.
 
 ## ⚙️ Instalação e Inicialização
 
@@ -132,15 +144,91 @@ Você pode rodar este projeto utilizando **Docker (Recomendado)** ou configurand
 *   **Node.js 20+** & **npm**
 *   Servidor **MySQL 8** ativo e configurado.
 
-### 🚀 Passo a Passo para Configuração
+## 🚀 Configuração do Projeto
 
-**1. Clone o repositório e acesse a pasta:**
+### 1. Clone o repositório
 
 ```bash
 git clone https://github.com/vitor-p-santos/taskFlow.git
 cd taskFlow
 ```
 
+> [!NOTE]
+> O projeto pode ser executado com **Docker** ou diretamente na sua máquina.
+
+
+## 🐳 Executando com Docker
+
+Dentro da pasta do projeto, execute:
+
 ```bash
-docker exec -it laravel_app php artisan migrate
+docker compose up -d --build
+```
+
+Após a criação dos containers, execute os testes:
+
+```bash
+docker exec -it laravel_app php artisan migrate --seed
+```
+
+Para rodar teste
+
+```bash
+docker exec -it laravel_app php artisan test
+```
+
+## 💻 Executando sem Docker
+
+Caso prefira executar o projeto localmente:
+
+1. Abra **dois terminais**, ambos apontando para a pasta `project`:
+   - Um para executar o **Laravel**;
+   - Outro para executar o **Vite**.
+
+2. Copie o arquivo `.env.example` para `.env` dentro da pasta `project`.
+
+3. Configure as credenciais do banco de dados no arquivo `.env`.
+
+4. Instale as dependências do projeto.
+
+**Composer**
+
+```bash
+composer install
+```
+
+**Node.js**
+
+```bash
+npm install
+```
+
+5. Gere a chave da aplicação:
+
+```bash
+php artisan key:generate
+```
+
+6. Execute as migrations e os seeders:
+
+```bash
+php artisan migrate --seed
+```
+
+7. Inicie o servidor Laravel:
+
+```bash
+php artisan serve
+```
+
+8. No outro terminal, inicie o Vite:
+
+```bash
+npm run dev
+```
+
+9. Execute os testes da aplicação:
+
+```bash
+php artisan test
 ```

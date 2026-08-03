@@ -29,7 +29,7 @@ const getStatusClass = (status: string) => {
 
       <div
         class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-50 whitespace-nowrap px-2.5 py-1 text-xs text-neutral-100 bg-neutral-900 border border-neutral-800 rounded shadow-md pointer-events-none">
-        {{ project.tasks_count > 0 ? 'clique e veja suas tarefas!' : 'Clique para crie tarefas!' }}
+        {{ project.tasks_count > 0 ? 'clique e veja suas tarefas!' : 'Clique para criar tarefas!' }}
       </div>
     </div>
     <div>
