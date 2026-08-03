@@ -20,8 +20,8 @@ else
 fi
 
 if [ -f ".env" ]; then
-      if grep -q "^APP_KEY=.*" .env; then
-        echo "🔑 APP_KEY já existe"
+    if grep -q "^APP_KEY=.+" .env; then
+        echo "🔑 APP_KEY já existe e tem um valor"
     else
         echo "🔑 Gerando chave da aplicação..."
         php artisan key:generate

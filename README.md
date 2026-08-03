@@ -207,6 +207,15 @@ Caso prefira executar o projeto localmente:
 2. Copie o arquivo `.env.example` para `.env` dentro da pasta `project`.
 
 3. Configure as credenciais do banco de dados no arquivo `.env`.
+```env
+DB_CONNECTION=mysql
+DB_HOST=mysql_db
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=laravel
+DB_PASSWORD=secret
+```
+
 
 4. Instale as dependências do projeto.
 
@@ -264,6 +273,8 @@ const apiUrl = {
 const projects = await fetchProjects(`${apiUrl.docker}/api/projects`)
 
 ```
+
+* em seguida rode o abaixo
 
 ```bash
 npm test
