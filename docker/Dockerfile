@@ -33,5 +33,4 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
-# Mantém o comando padrão para iniciar o PHP-FPM
 CMD ["php-fpm"]

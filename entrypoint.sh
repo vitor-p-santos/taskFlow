@@ -7,8 +7,6 @@ if [ ! -f ".env" ]; then
     echo "📄 Arquivo .env não encontrado. Copiando .env.example..."
     if [ -f ".env.example" ]; then
         cp .env.example .env
-        echo "🔑 Gerando chave da aplicação..."
-        php artisan key:generate
     else
         echo "⚠️ Alerta: .env.example não encontrado para copiar!"
     fi
@@ -19,6 +17,11 @@ if [ ! -d "vendor" ]; then
     composer install --no-interaction --no-plugins --no-scripts
 else
     echo "✅ Pasta vendor detectada."
+fi
+
+if [ -f ".env" ]; then
+    echo "🔑 Gerando chave da aplicação..."
+    php artisan key:generate
 fi
 
 echo "🔒 Ajustando permissões das pastas storage e bootstrap/cache..."
