@@ -112,20 +112,20 @@ Localizado dentro do diretório resources/, concentra toda a camada reativa e SP
 ### 💡 Decisões implementadas
 * Regra de negocio separada por dominio - Dentro da pasta /Domain está separado a regra de cada dominio [task, project] onde tem seus models, services, exceptions, formRequest, repository, Enum e actions assim evitando codigo bagunçado
 
-* Uso de interfaces dentro de `app/Interfaces` sendo contratos para actions e repositories
+* Uso de interfaces dentro de `app/Interfaces` sendo contratos para actions e repositories.
 
 * Infraestrutura montada no `docker` - facilitando testes e instalação.
 
-* adição do parametro 'due_date=true' na rota `GET` | `/api/projects/{id}/tasks`
+* adição do parametro 'due_date=true' na rota `GET` | `/api/projects/{id}/tasks`.
 
-* Montagem de components e layouts reutilizaveis no frontend
+* Montagem de components e layouts reutilizaveis no frontend.
 
 ### 🚀 Ideias de Próximas Implementações (Roadmap)
 *   [ ] **Alteração de status e Filtro de busca e exclusão de projetos:** - Possibilitando alterar entre ativo, arquivado, Sendo possivel excluir projeto e filtrar por status e/ou nome. 
 
 *   [ ] **Modal para edição de campos como nome e descrição de projetos e tasks:** - assim não travando o usuário e o obrigando a criar o projeto com nome correto e tasks deletadas por falta de informação.
 
-*   [ ] **Autenticação:** - criar telas de login/register usando tokens do laravel sanctum, tanto para uso web como para implementação de acesso mobile
+*   [ ] **Autenticação:** - criar telas de login/register usando tokens do laravel sanctum, tanto para uso web como para implementação de acesso mobile.
 
 *   [ ] **Notificações de vencimento:** - Notificação por e-mail das tarefas que estão próximas do vencimento em um formato de lista evitando envio ecessivo de e-mails.
 
