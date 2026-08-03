@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -12,12 +13,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        // $exceptions->render(function (Throwable $e){
-        //     return response()->json(['file' => $e->getFile(), 'message' => $e->getMessage(), 'line' => $e->getLine()], 500);
-        // });
-
-
+        $exceptions->render(function (QueryException $e){
+            return response()->json(['success' => false, 'message' => 'internal server error'], 500);
+        });
+        $exceptions->render(function (PDOException $e){
+            return response()->json(['success' => false, 'message' => 'internal server error'], 500);
+        });
     })->create();

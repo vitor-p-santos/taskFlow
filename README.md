@@ -140,3 +140,7 @@ Você pode rodar este projeto utilizando **Docker (Recomendado)** ou configurand
 git clone https://github.com/vitor-p-santos/taskFlow.git
 cd taskFlow
 ```
+
+```bash
+docker exec -it laravel_app php artisan migrate
+```
