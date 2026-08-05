@@ -10,7 +10,7 @@ use Tests\TestCase;
 class ProjectTaskApiTest extends TestCase
 {
     
-    use RefreshDatabase;
+    // use RefreshDatabase;
     use WithFaker;
 
     /**
@@ -37,6 +37,270 @@ class ProjectTaskApiTest extends TestCase
                 'priority' => 'high',
                 'project_id' => $projectId,
                 'due_date' => Carbon::now()->addDays(5)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
+            ],
+            [
+                'title' => 'Modelagem do banco do Catálogo',
+                'description' => 'Criar as tabelas e migrações no PostgreSQL exclusivas para o serviço de catálogo de produtos.',
+                'status' => 'todo',
+                'priority' => 'medium',
+                'project_id' => $projectId,
+                'due_date' => Carbon::now()->addDays(15)->format('Y-m-d H:i:s')
             ],
             [
                 'title' => 'Modelagem do banco do Catálogo',

@@ -8,7 +8,7 @@ import Loading from '../components/Loading.vue'
 import NavBar from '../layouts/NavBar.vue'
 
 import { useProjectsStore } from '../stores/ProjectStore'
-import { Project } from '../types/projectType'
+import { Project, ProjectCreate } from '../types/projectType'
 import { errorToast, successToast } from '../lib/toast'
 
 const projectStore = useProjectsStore()
@@ -21,30 +21,27 @@ const {
   nextUrl,
 } = storeToRefs(projectStore)
 
-
 const isOpen = ref(false)
 const modalError = ref<any>(null)
 const modalLoading = ref(false)
 
 onMounted(() => {
-  console.log('montando');
-  
   projectStore.load()
 })
 
 const handleNextPage = () => {
   if (nextUrl.value) {
-    projectStore.load( nextUrl.value )
+    projectStore.load(nextUrl.value)
   }
 }
 
 const handlePrevPage = () => {
   if (prevUrl.value) {
-    projectStore.load( prevUrl.value )
+    projectStore.load(prevUrl.value)
   }
 }
 
-const handleCreateProject = async (projectData: Project) => {
+const handleCreateProject = async (projectData: ProjectCreate) => {
   modalLoading.value = true
   modalError.value = null
 
@@ -68,8 +65,10 @@ const handleClose = () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#121212] text-neutral-100">
-    <NavBar title="Gerenciador de projetos" v-model:is-open="isOpen" name-button="Criar projeto" />
+  <div class="min-h-screen bg-[#121212] text-neutral-100" :inert="isOpen">
+    <header>
+      <NavBar title="Gerenciador de projetos" v-model:is-open="isOpen" name-button="Criar projeto" />
+    </header>
 
     <main class="max-w-7xl mx-auto px-4 py-8">
       <div v-if="loading">
@@ -81,9 +80,9 @@ const handleClose = () => {
         {{ error }}
       </div>
 
-      <template v-else-if="projects.length > 0">
+      <div v-else-if="projects.length > 0">
 
-        <div class="flex justify-between items-center mb-8 pb-4 border-b border-neutral-800">
+        <nav aria-label="Paginação superior" class="flex justify-between items-center mb-8 pb-4 border-b border-neutral-800">
           <button @click="handlePrevPage" :disabled="!prevUrl"
             class="px-4 py-2 text-xs font-medium text-neutral-300 bg-neutral-800 rounded-xl hover:bg-neutral-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
             ← Anterior
@@ -93,13 +92,15 @@ const handleClose = () => {
             class="px-4 py-2 text-xs font-medium text-neutral-300 bg-neutral-800 rounded-xl hover:bg-neutral-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
             Próxima →
           </button>
+        </nav>
+
+        <div aria-label="Lista de projetos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <article v-for="project in projects" :key="project.id">
+            <Card :project="project" />
+          </article>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card v-for="project in projects" :key="project.id" :project="project" />
-        </div>
-
-        <div class="flex justify-between items-center mt-8 pt-4 border-t border-neutral-800">
+        <nav aria-label="Paginação inferior" class="flex justify-between items-center mt-8 pt-4 border-t border-neutral-800">
           <button @click="handlePrevPage" :disabled="!prevUrl"
             class="px-4 py-2 text-xs font-medium text-neutral-300 bg-neutral-800 rounded-xl hover:bg-neutral-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
             ← Anterior
@@ -109,15 +110,17 @@ const handleClose = () => {
             class="px-4 py-2 text-xs font-medium text-neutral-300 bg-neutral-800 rounded-xl hover:bg-neutral-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
             Próxima →
           </button>
-        </div>
-      </template>
+        </nav>
+      </div>
 
       <div v-else class="text-center text-neutral-500 py-24 border border-dashed border-neutral-800 rounded-2xl">
         Nenhum projeto encontrado.
       </div>
     </main>
+  </div>
 
+  <aside aria-label="Criar novo projeto">
     <ProjectModal :is-open="isOpen" :loading="modalLoading" :error="modalError" @close="handleClose"
       @submit="handleCreateProject" />
-  </div>
+  </aside>
 </template>

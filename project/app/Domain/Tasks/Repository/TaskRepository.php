@@ -37,7 +37,7 @@ class TaskRepository implements RepositoryInterface
       $queryBuilder->overdue();
     }
 
-    return $queryBuilder->orderBy('id', 'desc')->cursorPaginate(9);
+    return $queryBuilder->orderBy('id', 'desc')->cursorPaginate(9)->withQueryString();
   }
 
   public function find(int $id): Task|null

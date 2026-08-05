@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { Project } from '../types/projectType'
+import { Project, ProjectCreate } from '../types/projectType'
 import {
   fetchProjects,
   createProject,
@@ -20,6 +20,7 @@ export const useProjectsStore = defineStore('projects', () => {
 
     try {
       const resp = await fetchProjects(url)
+      
 
       projects.value = resp.data
       nextUrl.value = resp.meta.next_page_url
@@ -32,10 +33,10 @@ export const useProjectsStore = defineStore('projects', () => {
     }
   }
 
-  async function add(data: Project) {
+  async function add(data: ProjectCreate) {
     const resp = await createProject(data)
-
-    projects.value.unshift(data)
+    
+    projects.value.unshift(resp.data)
 
     if (projects.value.length > 9) {
       projects.value.pop()

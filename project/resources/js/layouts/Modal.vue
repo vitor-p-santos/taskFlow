@@ -21,7 +21,7 @@ const close = () => {
     <div class="fixed inset-0 bg-black/70 backdrop-blur-xs transition-opacity" @click="!loading && close()"></div>
 
     
-    <div
+    <div aria-modal="true" role="dialog" 
       class="relative z-10 w-full max-w-md rounded-2xl bg-neutral-900 p-6 shadow-2xl border border-neutral-800 flex flex-col gap-6">
 
     

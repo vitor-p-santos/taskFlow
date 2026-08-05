@@ -1,4 +1,4 @@
-import { Project } from '../types/projectType'
+import { Project, ProjectCreate } from '../types/projectType'
 
 export async function fetchProjects(url = '/api/projects') {
   const response = await fetch(url, {
@@ -17,7 +17,7 @@ export async function fetchProjects(url = '/api/projects') {
   return resp
 }
 
-export async function createProject(data: Project) {
+export async function createProject(data: ProjectCreate) {
   const response = await fetch('/api/projects', {
     method: 'POST',
     headers: {
