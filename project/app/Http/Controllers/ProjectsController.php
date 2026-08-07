@@ -23,7 +23,28 @@ class ProjectsController extends Controller
 
   public function get(): JsonResponse
   {
-    $projects = $this->projectService->get();
+    $allowedFilters = ['name', 'status', 'cursor'];
+
+    $queryKeys = array_keys(request()->query());
+
+    $hasInvalidParams = !empty(array_diff($queryKeys, $allowedFilters));
+
+    if ($hasInvalidParams || !empty($queryKeys['name']) && $queryKeys['name'] == '') {
+      return $this->success(
+        'Projects found',
+        200,
+        ['nada'],
+        [
+          'next_cursor'    => null,
+          'next_page_url'  => null,
+          'prev_cursor'    => null,
+          'prev_page_url'  => null,
+          'has_more'       => false,
+        ]
+      );
+    }
+
+    $projects = $this->projectService->get(request()->only($allowedFilters));
 
     return $this->success(
       'Projects found',
@@ -38,7 +59,6 @@ class ProjectsController extends Controller
       ]
     );
   }
-
   public function store(NewProjectRequest $req): JsonResponse
   {
     $project = $this->projectService->create($req->validated());

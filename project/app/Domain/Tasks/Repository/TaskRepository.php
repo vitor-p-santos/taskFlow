@@ -17,7 +17,7 @@ class TaskRepository implements RepositoryInterface
   {
     $this->model = $model;
   }
-  public function all()
+  public function all(array  $filter)
   {
     //
   }
@@ -37,7 +37,9 @@ class TaskRepository implements RepositoryInterface
       $queryBuilder->overdue();
     }
 
-    return $queryBuilder->orderBy('id', 'desc')->cursorPaginate(9)->withQueryString();
+    return $queryBuilder->orderBy('id', 'desc')
+      ->cursorPaginate(9)
+      ->withQueryString();
   }
 
   public function find(int $id): Task|null

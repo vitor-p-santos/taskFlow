@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, reactive, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import Card from '../components/projects/ProjectCard.vue'
@@ -8,9 +8,10 @@ import Loading from '../components/Loading.vue'
 import NavBar from '../layouts/NavBar.vue'
 
 import { useProjectsStore } from '../stores/ProjectStore'
-import { ProjectCreate } from '../types/projectType'
+import { Project, ProjectCreate } from '../types/projectType'
 import { errorToast, successToast } from '../lib/toast'
 import Paginate from '../components/paginate.vue'
+import ProjectFilter from '../components/projects/ProjectFilter.vue'
 
 const projectStore = useProjectsStore()
 
@@ -25,6 +26,7 @@ const {
 const isOpen = ref(false)
 const modalError = ref<any>(null)
 const modalLoading = ref(false)
+const filterParams = reactive<{ name: string, status: string }>({ name: '', status: '' })
 
 onMounted(() => {
   projectStore.load()
@@ -32,13 +34,13 @@ onMounted(() => {
 
 const handleNextPage = () => {
   if (nextUrl.value) {
-    projectStore.load(nextUrl.value)
+    projectStore.load({ url: nextUrl.value })
   }
 }
 
 const handlePrevPage = () => {
   if (prevUrl.value) {
-    projectStore.load(prevUrl.value)
+    projectStore.load({ url: prevUrl.value })
   }
 }
 
@@ -63,15 +65,32 @@ const handleClose = () => {
   isOpen.value = false
   modalError.value = null
 }
+
+let debounceTimeout: any
+
+watch(filterParams, (newFilters) => {
+  clearTimeout(debounceTimeout)
+  
+  debounceTimeout = setTimeout(() => {
+   
+    projectStore.load({filter: filterParams})
+
+    projectStore.load({ filter: newFilters })
+  }, 800)
+}, { deep: true })
+
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#121212] text-neutral-100" :inert="isOpen">
+  <main class="min-h-screen bg-[#121212] text-neutral-100" :inert="isOpen">
     <header>
       <NavBar title="Gerenciador de projetos" v-model:is-open="isOpen" name-button="Criar projeto" />
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 py-8">
+
+    <ProjectFilter v-model:search-input="filterParams.name" v-model:status-select="filterParams.status" />
+    <div class="max-w-7xl mx-auto px-4 py-4">
+
       <div v-if="loading">
         <Loading message="Buscando projetos..." size="lg" full-screen />
       </div>
@@ -100,8 +119,8 @@ const handleClose = () => {
       <div v-else class="text-center text-neutral-500 py-24 border border-dashed border-neutral-800 rounded-2xl">
         Nenhum projeto encontrado.
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 
   <aside aria-label="Criar novo projeto">
     <ProjectModal :is-open="isOpen" :loading="modalLoading" :error="modalError" @close="handleClose"

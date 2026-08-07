@@ -6,6 +6,14 @@ import {
   createProject,
 } from '../composables/useProjects'
 
+interface LoadOptions {
+  url?: string
+  filter?: {
+    name?: string
+    status?: string
+  }
+}
+
 export const useProjectsStore = defineStore('projects', () => {
   const projects = ref<Project[]>([])
   const loading = ref(false)
@@ -14,13 +22,14 @@ export const useProjectsStore = defineStore('projects', () => {
   const nextUrl = ref<string>('')
   const prevUrl = ref<string>('')
 
-  async function load(url = '/api/projects') {
+  async function load(options: LoadOptions = {}) {
+    
     loading.value = true
     error.value = null
 
     try {
-      const resp = await fetchProjects(url)
-      
+      const resp = await fetchProjects(options.url, options.filter)
+
 
       projects.value = resp.data
       nextUrl.value = resp.meta.next_page_url
@@ -35,7 +44,7 @@ export const useProjectsStore = defineStore('projects', () => {
 
   async function add(data: ProjectCreate) {
     const resp = await createProject(data)
-    
+
     projects.value.unshift(resp.data)
 
     if (projects.value.length > 9) {

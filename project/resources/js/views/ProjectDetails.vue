@@ -7,7 +7,7 @@ import NewTaskModal from '../components/tasks/NewTaskModal.vue'
 import { patchTask, Task, TaskCreate } from '../types/Task'
 import NavBar from '../layouts/NavBar.vue'
 import TaskCard from '../components/tasks/TaskCard.vue'
-import Filter from '../layouts/Filter.vue'
+import TaskFilter from '../components/tasks/TaskFilter.vue'
 import { successToast, errorToast } from '../lib/toast.ts'
 import { ArrowLeft } from 'lucide-vue-next'
 import { storeToRefs } from 'pinia'
@@ -183,7 +183,7 @@ const handleClose = () => {
       </button>
     </NavBar>
 
-    <Filter v-model:status="filterStatus" v-model:priority="filterPriority" v-model:due-date="dueDate"
+    <TaskFilter v-model:status="filterStatus" v-model:priority="filterPriority" v-model:due-date="dueDate"
       v-on:clear-filter="handleClearFilter" />
 
     <div class="max-w-7xl mx-auto px-4 py-4">

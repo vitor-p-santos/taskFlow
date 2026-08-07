@@ -24,8 +24,8 @@ class ProjectService
   {
     return ($this->newAction)($data);
   }
-  public function get()
+  public function get(array $filter)
   {
-    return $this->projectRepository->all();
+    return $this->projectRepository->all($filter);
   }
 }
