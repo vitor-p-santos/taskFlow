@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { FetchTaskParams, Task } from '../types/Task'
+import { FetchTaskParams, Task, TaskCreate } from '../types/Task'
 import {
   fetchTasks,
   createTask,
@@ -33,7 +33,7 @@ export const useTasksStore = defineStore('tasks', () => {
     }
   }
 
-  async function create(projectId: number, task: Task) {
+  async function create(projectId: number, task: TaskCreate) {
     const resp = await createTask(projectId, task)
 
     tasks.value.push(resp.data)

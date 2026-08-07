@@ -14,7 +14,7 @@ export type ProjectCreate = {
 }
 
 export type ProjectUpdate = {
-  name: string
-  status: string
-  description: string
+  name?: string
+  status?: string
+  description?: string
 }

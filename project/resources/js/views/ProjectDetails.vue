@@ -4,7 +4,7 @@ import Loading from '../components/Loading.vue'
 import { useTasksStore } from '../stores/TaskStore.ts'
 import { useRoute, useRouter } from 'vue-router'
 import NewTaskModal from '../components/tasks/NewTaskModal.vue'
-import { Task } from '../types/Task'
+import { patchTask, Task, TaskCreate } from '../types/Task'
 import NavBar from '../layouts/NavBar.vue'
 import TaskCard from '../components/tasks/TaskCard.vue'
 import Filter from '../layouts/Filter.vue'
@@ -87,14 +87,14 @@ const handlePrevPage = () => {
 }
 
 
-const handleCreateTask = async (taskData: Task) => {
+const handleCreateTask = async (taskData: TaskCreate) => {
   modalLoading.value = true
   modalError.value = null
 
   try {
     await taskStore.create(projectId, taskData)
     isOpen.value = false
-    successToast(`A tarefa ${taskData.title} foi criada!`)
+    successToast(`Tarefa ${taskData.title} foi criada!`)
 
   } catch (err) {
     errorToast('erro')
@@ -109,7 +109,7 @@ const handlePatch = async ({
   patchData
 }: {
   taskId: number,
-  patchData: { status?: string, priority?: string }
+  patchData: patchTask
 }) => {
   const taskFind = tasks.value.find((t) => t.id === taskId);
 
@@ -131,7 +131,7 @@ const handlePatch = async ({
     });
 
     await taskStore.patch(taskId, patchData)
-    successToast(`${taskFind.title} foi atualizado!`);
+    successToast(`Tarefa: ${taskFind.title} foi atualizado!`);
   } catch (err) {
     errorToast(err instanceof Error ? err.message : 'Falha ao atualizar');
 
@@ -142,12 +142,17 @@ const handlePatch = async ({
   }
 }
 
-const handleDelete = async (taskId: number) => {
+const handleDelete = async (task: Task) => {
 
-  loadingTaskId.value = taskId
+  loadingTaskId.value = task.id
+
+  const taskFind = tasks.value.find((t) => t.id === task.id);
+
+  if (!taskFind) return
+
   try {
-    await taskStore.remove(taskId)
-    successToast('tarefa deletada');
+    await taskStore.remove(task.id)
+    successToast(`Tarefa ${taskFind.title} deletada!`);
   } catch (err) {
     errorToast(err instanceof Error ? err.message : 'Falha ao deletar');
   } finally {
@@ -193,7 +198,7 @@ const handleClose = () => {
 
       <div v-else-if="tasks.length > 0">
         <Paginate :prev-url="prevUrl" :next-url="nextUrl" @handle-prev-page="handlePrevPage"
-          @handle-next-page="handleNextPage" border-position="bottom"/>
+          @handle-next-page="handleNextPage" border-position="bottom" />
 
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
@@ -203,7 +208,7 @@ const handleClose = () => {
         </div>
 
         <Paginate :prev-url="prevUrl" :next-url="nextUrl" @handle-prev-page="handlePrevPage"
-          @handle-next-page="handleNextPage" border-position="top"/>
+          @handle-next-page="handleNextPage" border-position="top" />
 
       </div>
 

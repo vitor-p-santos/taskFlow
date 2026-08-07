@@ -8,7 +8,7 @@ const props = defineProps<{ task: Task, loading: boolean, patchLoading: boolean 
 
 
 const emit = defineEmits<{
-  (e: 'delete', id: number): void
+  (e: 'delete', task: Task): void
   (e: 'patch', payload: { taskId: number; patchData: { status?: string; priority?: string } }): void
 }>();
 
@@ -55,7 +55,7 @@ const getOverDue = (date: string): string => {
             <Loading inline message="Alterando" size="2sm" />
           </div>
           <div v-else>
-            <button @click="emit('delete', task.id!)"><Trash2 class="w-5 h-5 text-red-400 cursor-pointer"/></button>
+            <button @click="emit('delete', task)"><Trash2 class="w-5 h-5 text-red-400 cursor-pointer"/></button>
           </div>
         </div>
 

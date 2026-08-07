@@ -1,6 +1,6 @@
 
 export type Task = {
-  id?: number
+  id: number
   title: string
   description: string
   status: string
@@ -8,8 +8,6 @@ export type Task = {
   due_date: string
   created_at: string
 }
-
-
 
 export type FetchTaskParams = {
   id: number
@@ -19,4 +17,19 @@ export type FetchTaskParams = {
     due_date?: boolean
   }
   url?: string
+}
+
+
+export type TaskCreate = {
+  title: string
+  description: string
+  status: string
+  priority: string
+  due_date: string
+}
+
+
+export type patchTask = {
+  status?: string,
+  priority?: string,
 }

@@ -57,7 +57,7 @@ defineEmits<{
           leave-from-class="opacity-100 scale-100" leave-to-class="opacity-0 scale-95">
           <div v-if="props.dueDate || props.priority || props.status" class="w-full sm:w-auto">
             <button @click="$emit('clearFilter')"
-              class="w-full sm:w-auto px-3 py-2 sm:py-1.5 rounded-xl bg-neutral-950 border border-neutral-800 text-neutral-300 text-xs hover:text-white hover:border-neutral-700 active:scale-[0.98] focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all cursor-pointer">
+              class="w-full sm:w-auto px-3 py-2 sm:py-1.5 text-red-300 text-xs hover:text-white hover:border-neutral-700 active:scale-[0.98] focus:outline-none    transition-all cursor-pointer">
               Limpar filtro
             </button>
           </div>

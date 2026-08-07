@@ -1,4 +1,4 @@
-import { Task } from '../types/Task'
+import { Task, TaskCreate } from '../types/Task'
 
 type FetchTaskParams = {
   id: number
@@ -50,7 +50,7 @@ export async function fetchTasks({
 
 export async function createTask(
   projectId: number,
-  taskData: Task
+  taskData: TaskCreate
 ) {
   const response = await fetch(`/api/projects/${projectId}/tasks`, {
     method: 'POST',

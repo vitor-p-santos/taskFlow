@@ -50,7 +50,7 @@ const handleCreateProject = async (projectData: ProjectCreate) => {
     await projectStore.add(projectData)
 
     isOpen.value = false
-    successToast('Novo projeto adicionado')
+    successToast(`Projeto ${projectData.name} criado!`)
   } catch (err) {
     modalError.value = err
     errorToast('Erro ao criar projeto')
