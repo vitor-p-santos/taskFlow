@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Trash2 } from 'lucide-vue-next'
-import Card from '../layouts/Card.vue';
-import { Task } from '../types/Task';
-import Loading from './Loading.vue';
+import Card from '../../layouts/Card.vue';
+import { Task } from '../../types/Task';
+import Loading from '../Loading.vue';
 
 const props = defineProps<{ task: Task, loading: boolean, patchLoading: boolean }>();
 

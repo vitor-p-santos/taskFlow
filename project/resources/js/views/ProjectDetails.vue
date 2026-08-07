@@ -3,14 +3,15 @@ import { onMounted, ref, watch } from 'vue'
 import Loading from '../components/Loading.vue'
 import { useTasksStore } from '../stores/TaskStore.ts'
 import { useRoute, useRouter } from 'vue-router'
-import NewTaskModal from '../components/NewTaskModal.vue'
+import NewTaskModal from '../components/tasks/NewTaskModal.vue'
 import { Task } from '../types/Task'
 import NavBar from '../layouts/NavBar.vue'
-import TaskCard from '../components/TaskCard.vue'
+import TaskCard from '../components/tasks/TaskCard.vue'
 import Filter from '../layouts/Filter.vue'
 import { successToast, errorToast } from '../lib/toast.ts'
 import { ArrowLeft } from 'lucide-vue-next'
 import { storeToRefs } from 'pinia'
+import Paginate from '../components/paginate.vue'
 
 const taskStore = useTasksStore()
 
@@ -41,7 +42,7 @@ const patchLoadingId = ref<number | null>(null)
 const loadingTaskId = ref<number | null>(null)
 
 const loadTasks = () => {
-  
+
   taskStore.load({
     id: projectId,
     filters: {
@@ -60,9 +61,9 @@ let timer: ReturnType<typeof setTimeout>
 
 const debounceLoadTasks = () => {
   clearTimeout(timer)
-  
+
   timer = setTimeout(() => {
-    
+
     loadTasks()
   }, 800)
 }
@@ -93,7 +94,7 @@ const handleCreateTask = async (taskData: Task) => {
   try {
     await taskStore.create(projectId, taskData)
     isOpen.value = false
-    successToast('tarefa criada')
+    successToast(`A tarefa ${taskData.title} foi criada!`)
 
   } catch (err) {
     errorToast('erro')
@@ -130,7 +131,7 @@ const handlePatch = async ({
     });
 
     await taskStore.patch(taskId, patchData)
-    successToast('Conteúdo atualizado!');
+    successToast(`${taskFind.title} foi atualizado!`);
   } catch (err) {
     errorToast(err instanceof Error ? err.message : 'Falha ao atualizar');
 
@@ -168,7 +169,7 @@ const handleClose = () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#121212] text-neutral-100">
+  <main class="min-h-screen bg-[#121212] text-neutral-100">
     <NavBar title="Painel de tarefas" v-model:is-open="isOpen" name-button="Criar tarefa">
       <button @click="router.push('/')"
         class="inline-flex items-center gap-2 rounded-xl border border-neutral-700 bg-neutral-800 px-4 py-2.5 text-sm font-medium text-neutral-300 transition-all duration-200 hover:border-neutral-600 hover:bg-neutral-700 hover:text-white hover:shadow-lg hover:shadow-black/20 active:scale-95 focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 focus:ring-offset-neutral-900">
@@ -177,9 +178,10 @@ const handleClose = () => {
       </button>
     </NavBar>
 
-    <Filter v-model:status="filterStatus" v-model:priority="filterPriority" v-model:due-date="dueDate" v-on:clear-filter="handleClearFilter" />
+    <Filter v-model:status="filterStatus" v-model:priority="filterPriority" v-model:due-date="dueDate"
+      v-on:clear-filter="handleClearFilter" />
 
-    <main class="max-w-7xl mx-auto px-4 py-4">
+    <div class="max-w-7xl mx-auto px-4 py-4">
       <div v-if="loading">
         <Loading message="Buscando tarefas..." size="lg" full-screen />
       </div>
@@ -190,17 +192,9 @@ const handleClose = () => {
       </div>
 
       <div v-else-if="tasks.length > 0">
-        <div class="flex justify-between items-center mb-8 pb-4 border-b border-neutral-800">
-          <button @click="handlePrevPage" :disabled="!prevUrl"
-            class="px-4 py-2 text-xs font-medium text-neutral-300 bg-neutral-800 rounded-xl hover:bg-neutral-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
-            ← Anterior
-          </button>
+        <Paginate :prev-url="prevUrl" :next-url="nextUrl" @handle-prev-page="handlePrevPage"
+          @handle-next-page="handleNextPage" border-position="bottom"/>
 
-          <button @click="handleNextPage" :disabled="!nextUrl"
-            class="px-4 py-2 text-xs font-medium text-neutral-300 bg-neutral-800 rounded-xl hover:bg-neutral-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
-            Próxima →
-          </button>
-        </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
 
@@ -208,26 +202,21 @@ const handleClose = () => {
             :loading="loadingTaskId === task.id" :patch-loading="patchLoadingId === task.id" />
         </div>
 
-        <div class="flex justify-between items-center mt-8 pt-4 border-t border-neutral-800">
-          <button @click="handlePrevPage" :disabled="!prevUrl"
-            class="px-4 py-2 text-xs font-medium text-neutral-300 bg-neutral-800 rounded-xl hover:bg-neutral-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
-            ← Anterior
-          </button>
-
-          <button @click="handleNextPage" :disabled="!nextUrl"
-            class="px-4 py-2 text-xs font-medium text-neutral-300 bg-neutral-800 rounded-xl hover:bg-neutral-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
-            Próxima →
-          </button>
-        </div>
+        <Paginate :prev-url="prevUrl" :next-url="nextUrl" @handle-prev-page="handlePrevPage"
+          @handle-next-page="handleNextPage" border-position="top"/>
 
       </div>
 
       <div v-else class="text-center text-neutral-500 py-24 border border-dashed border-neutral-800 rounded-2xl">
         Nenhuma tarefa encontrada.
       </div>
-    </main>
+    </div>
 
+
+  </main>
+
+  <aside>
     <NewTaskModal :is-open="isOpen" :loading="modalLoading" :error="modalError" @close="handleClose"
       @submit="handleCreateTask" />
-  </div>
+  </aside>
 </template>

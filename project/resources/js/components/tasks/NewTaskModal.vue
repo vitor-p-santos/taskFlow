@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import BaseModal from '../layouts/Modal.vue'
+import BaseModal from '../../layouts/Modal.vue'
 
 const props = defineProps<{
   isOpen: boolean
@@ -39,11 +39,20 @@ const handleFormSubmit = () => {
     due_date: due_date.value,
   })
 }
+const handleClose = () => {
+  emit('close')
+}
+
 </script>
 
 <template>
-  <BaseModal :is-open="isOpen" :loading="loading" title="Nova Tarefa"
-    description="Preencha os dados abaixo para criar uma nova tarefa." @close="$emit('close')">
+  <BaseModal 
+    :is-open="isOpen" 
+    :loading="loading" 
+    title="Novo projeto"
+    description="Preencha os dados abaixo para criar um novo projeto." 
+    @close="handleClose"
+  >
     <form class="flex flex-col gap-4" @submit.prevent="handleFormSubmit">
 
       <div v-if="error && !error?.errors"
@@ -116,7 +125,7 @@ const handleFormSubmit = () => {
       </div>
 
       <div class="flex items-center justify-end gap-3 pt-2">
-        <button type="button" @click="$emit('close')"
+        <button type="button" @click="handleClose"
           class="px-4 py-2.5 text-sm font-medium text-neutral-300 bg-neutral-800 rounded-xl hover:bg-neutral-700 hover:text-white transition-colors">
           Cancelar
         </button>

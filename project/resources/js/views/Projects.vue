@@ -2,14 +2,15 @@
 import { onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 
-import Card from '../components/ProjectCard.vue'
-import ProjectModal from '../components/NewProjectModal.vue'
+import Card from '../components/projects/ProjectCard.vue'
+import ProjectModal from '../components/projects/NewProjectModal.vue'
 import Loading from '../components/Loading.vue'
 import NavBar from '../layouts/NavBar.vue'
 
 import { useProjectsStore } from '../stores/ProjectStore'
-import { Project, ProjectCreate } from '../types/projectType'
+import { ProjectCreate } from '../types/projectType'
 import { errorToast, successToast } from '../lib/toast'
+import Paginate from '../components/paginate.vue'
 
 const projectStore = useProjectsStore()
 
@@ -82,17 +83,9 @@ const handleClose = () => {
 
       <div v-else-if="projects.length > 0">
 
-        <nav aria-label="Paginação superior" class="flex justify-between items-center mb-8 pb-4 border-b border-neutral-800">
-          <button @click="handlePrevPage" :disabled="!prevUrl"
-            class="px-4 py-2 text-xs font-medium text-neutral-300 bg-neutral-800 rounded-xl hover:bg-neutral-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
-            ← Anterior
-          </button>
+        <Paginate :next-url="nextUrl" @handle-next-page="handleNextPage" :prev-url="prevUrl"
+          @handle-prev-page="handlePrevPage" border-position="bottom" />
 
-          <button @click="handleNextPage" :disabled="!nextUrl"
-            class="px-4 py-2 text-xs font-medium text-neutral-300 bg-neutral-800 rounded-xl hover:bg-neutral-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
-            Próxima →
-          </button>
-        </nav>
 
         <div aria-label="Lista de projetos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <article v-for="project in projects" :key="project.id">
@@ -100,17 +93,8 @@ const handleClose = () => {
           </article>
         </div>
 
-        <nav aria-label="Paginação inferior" class="flex justify-between items-center mt-8 pt-4 border-t border-neutral-800">
-          <button @click="handlePrevPage" :disabled="!prevUrl"
-            class="px-4 py-2 text-xs font-medium text-neutral-300 bg-neutral-800 rounded-xl hover:bg-neutral-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
-            ← Anterior
-          </button>
-
-          <button @click="handleNextPage" :disabled="!nextUrl"
-            class="px-4 py-2 text-xs font-medium text-neutral-300 bg-neutral-800 rounded-xl hover:bg-neutral-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
-            Próxima →
-          </button>
-        </nav>
+        <Paginate :next-url="nextUrl" @handle-next-page="handleNextPage" :prev-url="prevUrl"
+          @handle-prev-page="handlePrevPage" border-position="top" />
       </div>
 
       <div v-else class="text-center text-neutral-500 py-24 border border-dashed border-neutral-800 rounded-2xl">
