@@ -136,7 +136,7 @@ const handlePatch = async ({
     });
 
     await taskStore.patch(taskId, patchData)
-    
+
     const match = {
       'todo': 'Pendente',
       'in_progress': 'Em Progresso',
@@ -144,7 +144,7 @@ const handlePatch = async ({
       'low': 'Baixa',
       'medium': 'Média',
       'high': 'Alta'
-    } as const;
+    } as const;  
 
     const key = (patchData.priority ?? patchData.status) as keyof typeof match;
 
