@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Domain\Projects\Services\CheckProjectService;
-use App\Domain\Tasks\Requests\{NewTaskRequest, PatchTaskRequest};
+use App\Domain\Tasks\Requests\{GetParamsRequest, NewTaskRequest, PatchTaskRequest};
 use App\Domain\Tasks\Resources\TaskResource;
 use App\Domain\Tasks\Services\CheckTaskService;
 use App\Domain\Tasks\Services\TaskService;
@@ -29,22 +29,19 @@ class TasksController
     $this->taskService = $taskService;
   }
 
-  public function get(int $id)
-  {
-    $params = request()->only(['status', 'priority', 'due_date']);
 
+  public function get(GetParamsRequest $request, int $id)
+  {
     $this->checkProjectService->find($id);
 
-    $data =  $this->taskService->all($id, $params);
+    $data = $this->taskService->all($id, $request->validated());
 
-    $taskResource = TaskResource::collection($data);
-
-    return $this->success('tasks found', 200, $taskResource,    [
-      'next_cursor'    => optional($data->nextCursor())->encode(),
-      'next_page_url'  => $data->nextPageUrl(),
-      'prev_cursor'    => optional($data->previousCursor())->encode(),
-      'prev_page_url'  => $data->previousPageUrl(),
-      'has_more'       => $data->hasMorePages(),
+    return $this->success('tasks found', 200, TaskResource::collection($data), [
+      'next_cursor'   => optional($data->nextCursor())->encode(),
+      'next_page_url' => $data->nextPageUrl(),
+      'prev_cursor'   => optional($data->previousCursor())->encode(),
+      'prev_page_url' => $data->previousPageUrl(),
+      'has_more'      => $data->hasMorePages(),
     ]);
   }
   public function store(NewTaskRequest $req, int $id)
@@ -66,7 +63,7 @@ class TasksController
 
     $dataToUpdate = array_filter($req->validated(), fn($value) => !empty($value));
 
-    $find = $this->checkTaskService->findTask($id);
+    $find = $this->checkTaskService->checkSoftDelete($id);
 
     $task = $this->taskService->patchField($find, $dataToUpdate);
 

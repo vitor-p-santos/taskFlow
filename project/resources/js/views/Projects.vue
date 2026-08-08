@@ -73,7 +73,6 @@ watch(filterParams, (newFilters) => {
   
   debounceTimeout = setTimeout(() => {
    
-    projectStore.load({filter: filterParams})
 
     projectStore.load({ filter: newFilters })
   }, 800)

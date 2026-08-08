@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Domain\Projects\Requests\GetParamsRequest;
 use App\Domain\Projects\Requests\NewProjectRequest;
 use App\Domain\Projects\Resources\ProjectResource;
 use App\Domain\Projects\Services\{NewProjectService, ProjectService};
@@ -21,30 +22,11 @@ class ProjectsController extends Controller
     $this->projectService = $projectService;
   }
 
-  public function get(): JsonResponse
+  public function get(GetParamsRequest $getParamsRequest): JsonResponse
   {
-    $allowedFilters = ['name', 'status', 'cursor'];
+    $filter = $getParamsRequest->validated();
 
-    $queryKeys = array_keys(request()->query());
-
-    $hasInvalidParams = !empty(array_diff($queryKeys, $allowedFilters));
-
-    if ($hasInvalidParams || !empty($queryKeys['name']) && $queryKeys['name'] == '') {
-      return $this->success(
-        'Projects found',
-        200,
-        ['nada'],
-        [
-          'next_cursor'    => null,
-          'next_page_url'  => null,
-          'prev_cursor'    => null,
-          'prev_page_url'  => null,
-          'has_more'       => false,
-        ]
-      );
-    }
-
-    $projects = $this->projectService->get(request()->only($allowedFilters));
+    $projects = $this->projectService->get($filter);
 
     return $this->success(
       'Projects found',
