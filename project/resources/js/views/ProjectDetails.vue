@@ -144,7 +144,7 @@ const handlePatch = async ({
       'low': 'Baixa',
       'medium': 'Média',
       'high': 'Alta'
-    } as const;  
+    } as const;
 
     const key = (patchData.priority ?? patchData.status) as keyof typeof match;
 
