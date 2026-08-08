@@ -136,7 +136,20 @@ const handlePatch = async ({
     });
 
     await taskStore.patch(taskId, patchData)
-    successToast(`Tarefa: ${taskFind.title} foi atualizado!`);
+    
+    const match = {
+      'todo': 'Pendente',
+      'in_progress': 'Em Progresso',
+      'done': 'Concluído',
+      'low': 'Baixa',
+      'medium': 'Média',
+      'high': 'Alta'
+    } as const;
+
+    const key = (patchData.priority ?? patchData.status) as keyof typeof match;
+
+    successToast(`Tarefa: ${taskFind.title} foi atualizado para ${match[key]}`);
+
   } catch (err) {
     errorToast(err instanceof Error ? err.message : 'Falha ao atualizar');
 
