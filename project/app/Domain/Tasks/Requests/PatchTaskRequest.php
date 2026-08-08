@@ -25,20 +25,19 @@ class PatchTaskRequest extends FormRequest
   public function rules(): array
   {
     return [
-      'status' => ['sometimes', Rule::enum(StatusTask::class)],
-      'priority' => ['sometimes', Rule::enum(PriorityTask::class)],
+      'status' => ['required_without_all:priority', Rule::enum(StatusTask::class)],
+      'priority' => ['required_without_all:status', Rule::enum(PriorityTask::class)],
     ];
   }
 
   public function messages(): array
   {
     return [
-      'status.sometimes' => 'O status é obrigatório.',
+      'required_without_all' => 'Informe o status ou a prioridade para atualizar.',
       'status.enum' => 'O status selecionado é inválido.',
 
-      'priority.sometimes' => 'A prioridade é obrigatória.',
+      'priority.required_without_all' => 'Informe a prioridade ou o status para atualizar.',
       'priority.enum' => 'A prioridade selecionada é inválida.',
-
     ];
   }
 }
