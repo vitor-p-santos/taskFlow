@@ -3,7 +3,7 @@ import { onMounted, ref, watch } from 'vue'
 import Loading from '../components/Loading.vue'
 import { useTasksStore } from '../stores/TaskStore.ts'
 import { useRoute, useRouter } from 'vue-router'
-import NewTaskModal from '../components/tasks/NewTaskModal.vue'
+import NewTaskModal from '../components/tasks/TaskModal.vue'
 import { patchTask, Task, TaskCreate } from '../types/Task'
 import NavBar from '../layouts/NavBar.vue'
 import TaskCard from '../components/tasks/TaskCard.vue'
@@ -144,7 +144,7 @@ const handlePatch = async ({
       'low': 'Baixa',
       'medium': 'Média',
       'high': 'Alta'
-    } as const; 
+    } as const;
 
     const key = (patchData.priority ?? patchData.status) as keyof typeof match;
 

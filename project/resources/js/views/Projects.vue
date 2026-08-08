@@ -3,7 +3,7 @@ import { onMounted, reactive, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import Card from '../components/projects/ProjectCard.vue'
-import ProjectModal from '../components/projects/NewProjectModal.vue'
+import ProjectModal from '../components/projects/ProjectModal.vue'
 import Loading from '../components/Loading.vue'
 import NavBar from '../layouts/NavBar.vue'
 
