@@ -54,9 +54,6 @@ class TaskService
   public function softDelete(Task $task)
   {
 
-    $data['deleted_at'] = Carbon::now();
-    $data['deleted'] = true;
-
-    return ($this->deleteAction)($task, $data);
+    return ($this->deleteAction)($task);
   }
 }

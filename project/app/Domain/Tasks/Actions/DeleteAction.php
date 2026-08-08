@@ -9,11 +9,15 @@ use Illuminate\Support\Facades\DB;
 class DeleteAction implements ActionByIdInterface
 {
 
-  public function __invoke(Task $task, array $data): Task
+  public function __invoke(Task $task, array $data = []): Task
   {
     return DB::transaction(function () use ($task, $data) {
 
-      $task->update($data);
+      if(!empty($data)){
+        $task->update($data);
+      }
+
+      $task->delete();
       
       return $task->fresh();
     });

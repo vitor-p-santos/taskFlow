@@ -20,7 +20,6 @@ return new class extends Migration
             $table->enum('status', ['todo', 'in_progress', 'done']);
             $table->enum('priority', ['low', 'medium', 'high']);
             $table->dateTime('due_date');
-            $table->boolean('deleted')->default(false);
             $table->softDeletes('deleted_at');
             $table->timestamps();
         });

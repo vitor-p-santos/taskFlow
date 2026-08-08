@@ -31,7 +31,7 @@ class CheckTaskService
   {
     $find = $this->findTask($id);
     
-    if ($find->deleted) {
+    if ($find->deleted_at) {
       throw new TaskDeleted();
     }
 

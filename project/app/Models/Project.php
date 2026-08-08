@@ -18,6 +18,6 @@ class Project extends Model
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class, 'project_id', 'id')
-            ->where('deleted', false);
+            ->whereNull('deleted_at');
     }
 }

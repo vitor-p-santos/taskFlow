@@ -23,7 +23,7 @@ class TaskRepository implements RepositoryInterface
   }
   public function get(int $id, array $query)
   {
-    $queryBuilder = $this->model->where('project_id', $id)->where('deleted', false);
+    $queryBuilder = $this->model->where('project_id', $id)->Active();
 
     if (StatusTask::tryFrom(data_get($query, 'status'))) {
       $queryBuilder->where('status', $query['status']);
@@ -44,6 +44,6 @@ class TaskRepository implements RepositoryInterface
 
   public function find(int $id): Task|null
   {
-    return $this->model->find($id);
+    return $this->model->withTrashed()->find($id);
   }
 }
