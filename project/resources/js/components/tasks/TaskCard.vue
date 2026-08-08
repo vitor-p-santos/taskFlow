@@ -27,12 +27,22 @@ const handlePatch = (field: 'status' | 'priority', event: Event) => {
 
 const getOverDue = (date: string): string => {
   if (!date) return 'text-neutral-500';
-  const [day, month, year] = date.split('/');
-  const targetDate = new Date(`${year}-${month}-${day}`).getTime();
-  const now = new Date().getTime();
-  return targetDate < now ? 'text-red-400 animate-pulse' : 'text-emerald-400';
-};
 
+  const [day, month, year] = date.split('/').map(Number);
+
+  const targetDate = new Date(year, month - 1, day);
+  
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  if(targetDate < today){
+    return 'text-red-400 animate-pulse';
+  }else if(targetDate > today){
+    return 'text-emerald-400'
+  }else {
+    return  'text-yellow-400 animate-pulse';
+  }
+};
 </script>
 
 <template>
