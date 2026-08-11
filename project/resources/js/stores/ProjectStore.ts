@@ -32,8 +32,8 @@ export const useProjectsStore = defineStore('projects', () => {
 
 
       projects.value = resp.data
-      nextUrl.value = resp.meta.next_page_url
-      prevUrl.value = resp.meta.prev_page_url
+      nextUrl.value = resp.links.next
+      prevUrl.value = resp.links.prev
     } catch (err) {
       error.value =
         err instanceof Error ? err.message : 'Erro inesperado'

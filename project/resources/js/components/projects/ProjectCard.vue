@@ -24,14 +24,21 @@ const getStatusClass = (status: string) => {
 </script>
 
 <template>
-  <Card @click="handleCardClick" class="cursor-pointer">
-    <div class="relative inline-block group">
-
+  <Card 
+    @click="handleCardClick" 
+    @keydown.enter.space.prevent="handleCardClick"
+    tabindex="0"
+    role="button"
+    class="cursor-pointer "
+  >
+    <div class="relative inline-block">
       <div
-        class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-50 whitespace-nowrap px-2.5 py-1 text-xs text-neutral-100 bg-neutral-900 border border-neutral-800 rounded shadow-md pointer-events-none">
+        class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block group-focus-visible:block z-50 whitespace-nowrap px-2.5 py-1 text-xs text-neutral-100 bg-neutral-900 border border-neutral-800 rounded shadow-md pointer-events-none"
+      >
         {{ project.tasks_count > 0 ? 'clique e veja suas tarefas!' : 'Clique para criar tarefas!' }}
       </div>
     </div>
+    
     <div>
       <div class="flex items-start justify-between gap-4 mb-3">
         <h3 class="text-base font-semibold tracking-tight text-white line-clamp-1">
@@ -39,22 +46,24 @@ const getStatusClass = (status: string) => {
         </h3>
 
         <span
-          :class="['inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border shrink-0', getStatusClass(project.status)]">
+          :class="['inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border shrink-0', getStatusClass(project.status)]"
+        >
           {{ project.status }}
         </span>
       </div>
 
       <p
-        class="text-sm font-normal text-neutral-400 max-h-10 hover:max-h-50 overflow-hidden transition-all duration-500 ease-in-out mb-6">
+        class="text-sm font-normal text-neutral-400 max-h-10 hover:max-h-50 overflow-hidden transition-all duration-500 ease-in-out mb-6"
+      >
         {{ project.description }}
       </p>
-
 
       <div class="pt-4 border-t border-neutral-800/80 flex items-center justify-between text-xs text-neutral-400">
         <span class="text-neutral-500">Criado em {{ project.created_at }}</span>
 
         <div
-          class="flex items-center gap-1.5 font-medium text-neutral-300 bg-neutral-800/80 border border-neutral-700/50 px-2.5 py-1 rounded-lg">
+          class="flex items-center gap-1.5 font-medium text-neutral-300 bg-neutral-800/80 border border-neutral-700/50 px-2.5 py-1 rounded-lg"
+        >
           <span>{{ project.tasks_count }} {{ project.tasks_count === 1 ? 'tarefa' : 'tarefas' }}</span>
         </div>
       </div>

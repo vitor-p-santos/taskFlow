@@ -70,9 +70,9 @@ let debounceTimeout: any
 
 watch(filterParams, (newFilters) => {
   clearTimeout(debounceTimeout)
-  
+
   debounceTimeout = setTimeout(() => {
-   
+
 
     projectStore.load({ filter: newFilters })
   }, 800)
@@ -88,7 +88,10 @@ watch(filterParams, (newFilters) => {
 
 
     <ProjectFilter v-model:search-input="filterParams.name" v-model:status-select="filterParams.status" />
-    <div class="max-w-7xl mx-auto px-4 py-4">
+    <transition class="max-w-7xl mx-auto px-4 py-4" enter-active-class="transition-all duration-500 ease-out"
+      enter-from-class="opacity-0 translate-y-7" enter-to-class="opacity-100 translate-y-0"
+      leave-active-class="transition-all duration-500 ease-in" leave-from-class="opacity-100 translate-y-0"
+      leave-to-class="opacity-0 translate-y-7">
 
       <div v-if="loading">
         <Loading message="Buscando projetos..." size="lg" full-screen />
@@ -104,12 +107,17 @@ watch(filterParams, (newFilters) => {
         <Paginate :next-url="nextUrl" @handle-next-page="handleNextPage" :prev-url="prevUrl"
           @handle-prev-page="handlePrevPage" border-position="bottom" />
 
-
-        <div aria-label="Lista de projetos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <article v-for="project in projects" :key="project.id">
-            <Card :project="project" />
-          </article>
-        </div>
+        <article>
+          <TransitionGroup aria-label="Lista de projetos" name="list" tag="ul"
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6"
+            enter-active-class="transition-all duration-500 ease-out" enter-from-class="opacity-0 translate-y-7"
+            enter-to-class="opacity-100 translate-y-0" leave-active-class="transition-all duration-500 ease-in"
+            leave-from-class="opacity-100 translate-y-0" leave-to-class="opacity-0 translate-y-7">
+            <li v-for="project in projects" :key="project.id">
+              <Card :project="project" />
+            </li>
+          </TransitionGroup>
+        </article>
 
         <Paginate :next-url="nextUrl" @handle-next-page="handleNextPage" :prev-url="prevUrl"
           @handle-prev-page="handlePrevPage" border-position="top" />
@@ -118,7 +126,7 @@ watch(filterParams, (newFilters) => {
       <div v-else class="text-center text-neutral-500 py-24 border border-dashed border-neutral-800 rounded-2xl">
         Nenhum projeto encontrado.
       </div>
-    </div>
+    </transition>
   </main>
 
   <aside aria-label="Criar novo projeto">

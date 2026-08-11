@@ -31,16 +31,16 @@ const getOverDue = (date: string): string => {
   const [day, month, year] = date.split('/').map(Number);
 
   const targetDate = new Date(year, month - 1, day);
-  
+
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  if(targetDate < today){
+  if (targetDate < today) {
     return 'text-red-400 animate-pulse';
-  }else if(targetDate > today){
+  } else if (targetDate > today) {
     return 'text-emerald-400'
-  }else {
-    return  'text-yellow-400 animate-pulse';
+  } else {
+    return 'text-yellow-400 animate-pulse';
   }
 };
 </script>
@@ -65,7 +65,9 @@ const getOverDue = (date: string): string => {
             <Loading inline message="Alterando" size="2sm" />
           </div>
           <div v-else>
-            <button @click="emit('delete', task)"><Trash2 class="w-5 h-5 text-red-400 cursor-pointer"/></button>
+            <button @click="emit('delete', task)" class="p-1 rounded-lg outline-none focus:border focus:border-red-400">
+              <Trash2 class="w-5 h-5 text-red-400 cursor-pointer" />
+            </button>
           </div>
         </div>
 
@@ -74,9 +76,9 @@ const getOverDue = (date: string): string => {
             <label for="status" class="text-xs uppercase tracking-wider text-neutral-500">
               Status
             </label>
-            <select id="stattus" :disabled="patchLoading" :value="task.status" @change="handlePatch('status', $event)"
-              :class="[
-                'px-2.5 py-1 rounded-full text-xs bg-neutral-900 font-semibold border transition-all focus:outline-none',
+            <select id="status" :disabled="patchLoading" :value="task.status" @change="handlePatch('status', $event)"
+              class='cursor-pointer px-2.5 py-1 rounded-full text-xs bg-neutral-900 font-semibold border transition-all outline-none focus:border-emerald-500'
+              , :class="[
                 task.status === 'todo'
                   ? 'text-neutral-200 border-neutral-700  focus:ring-neutral-500'
                   : '',
@@ -99,8 +101,9 @@ const getOverDue = (date: string): string => {
               Prioridade
             </label>
             <select id="priority" :disabled="patchLoading" :value="task.priority"
-              @change="handlePatch('priority', $event)" :class="[
-                'px-2.5 py-1 rounded-full text-xs bg-neutral-900 font-semibold border transition-all focus:outline-none',
+              @change="handlePatch('priority', $event)" 
+              class='px-2.5 py-1 rounded-full text-xs bg-neutral-900 font-semibold border transition-all cursor-pointer outline-none focus:border-emerald-500'
+              :class="[
                 task.priority === 'low'
                   ? 'text-neutral-200 border-neutral-700  focus:ring-neutral-500'
                   : '',
@@ -113,7 +116,7 @@ const getOverDue = (date: string): string => {
                 patchLoading && 'opacity-60 cursor-wait'
               ]">
               <option value="low" class="bg-neutral-900 text-neutral-200">Baixa</option>
-              <option value="medium" class="bg-neutral-900 text-amber-400"">Média</option>
+              <option value="medium" class="bg-neutral-900 text-amber-400">Média</option>
             <option value="high" class="bg-neutral-900 text-red-300">Alta</option>
 
             </select>
@@ -121,9 +124,9 @@ const getOverDue = (date: string): string => {
 
         </div>
 
-        <div
-          class="overflow-hidden max-h-20 hover:max-h-60 transition-all duration-500 ease-in-out mb-1 py-2">
-          <p class="mb-2 py-2 text-xs uppercase tracking-wider text-center text-neutral-500 border-b border-neutral-800">
+        <div class="overflow-hidden max-h-20 hover:max-h-60 transition-all duration-500 ease-in-out mb-1 py-2">
+          <p
+            class="mb-2 py-2 text-xs uppercase tracking-wider text-center text-neutral-500 border-b border-neutral-800">
             Descrição
           </p>
           <p class="text-sm text-neutral-400 leading-relaxed">

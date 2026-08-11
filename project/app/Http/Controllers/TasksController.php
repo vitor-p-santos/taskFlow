@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Domain\Projects\Services\CheckProjectService;
-use App\Domain\Tasks\Requests\{GetParamsRequest, NewTaskRequest, PatchTaskRequest};
-use App\Domain\Tasks\Resources\TaskResource;
-use App\Domain\Tasks\Services\CheckTaskService;
-use App\Domain\Tasks\Services\TaskService;
+use App\Actions\DeleteAction;
+use App\Actions\NewAction;
+use App\Actions\PatchAction;
+use App\Exceptions\TaskDeleted;
+use App\Http\Requests\GetParamsRequest;
+use App\Http\Requests\NewTaskRequest;
+use App\Http\Requests\PatchTaskRequest;
+use App\Http\Resources\TaskCollection;
+use App\Http\Resources\TaskResource;
+use App\Repositories\ProjectRepository;
+use App\Repositories\TaskRepository;
+use App\Service\CheckService;
 use App\Trait\ResponseTrait;
 
 
@@ -14,68 +21,42 @@ class TasksController
 {
   use ResponseTrait;
 
-  protected CheckTaskService $checkTaskService;
-  protected CheckProjectService $checkProjectService;
-  protected TaskService $taskService;
-
   public function __construct(
-
-    CheckTaskService $checkTaskService,
-    CheckProjectService $checkProjectService,
-    TaskService $taskService
-  ) {
-    $this->checkTaskService = $checkTaskService;
-    $this->checkProjectService = $checkProjectService;
-    $this->taskService = $taskService;
-  }
-
-
-  public function get(GetParamsRequest $request, int $id)
+    private TaskRepository $taskRepository
+  ) {}
+  public function get(GetParamsRequest $request, int $id, CheckService $checkService, ProjectRepository $projectRepository): TaskCollection
   {
-    $this->checkProjectService->find($id);
+    $findProject = $checkService->exist($projectRepository, $id);
 
-    $data = $this->taskService->all($id, $request->validated());
+    $tasks = $this->taskRepository->get($findProject->id, $request->validated());
 
-    return $this->success('tasks found', 200, TaskResource::collection($data), [
-      'next_cursor'   => optional($data->nextCursor())->encode(),
-      'next_page_url' => $data->nextPageUrl(),
-      'prev_cursor'   => optional($data->previousCursor())->encode(),
-      'prev_page_url' => $data->previousPageUrl(),
-      'has_more'      => $data->hasMorePages(),
-    ]);
+    return new TaskCollection($tasks);
   }
-  public function store(NewTaskRequest $req, int $id)
+  public function store(NewTaskRequest $req, int $id,  NewAction $newAction)
   {
     $body = $req->validated();
 
-    $this->checkProjectService->find($id);
+    $this->taskRepository->find($id);
 
     $body['project_id'] = $id;
 
-    $data = $this->taskService->create($body);
+    $data = $newAction($body);
 
-    $taskResource = new TaskResource($data);
-
-    return $this->success('task created', 201, $taskResource);
+    return (new TaskResource($data))->response()->setStatusCode(201);
   }
-  public function patch(PatchTaskRequest $req, int $id)
+  public function patch(PatchTaskRequest $req, int $id, CheckService $checkService,  PatchAction $patchAction)
   {
-    // dd('234');
-    $dataToUpdate = array_filter($req->validated(), fn($value) => !empty($value));
+    $find = $checkService->softDeleted($this->taskRepository, $id);
 
-    $find = $this->checkTaskService->checkSoftDelete($id);
+    $task = $patchAction($find, $req->validated());
 
-    $task = $this->taskService->patchField($find, $dataToUpdate);
-
-    $taskResource = new TaskResource($task);
-
-    return $this->success('task updated', 200, $taskResource);
+    return new TaskResource($task);
   }
-  public function delete(int $id)
+  public function delete(int $id, CheckService $checkService, DeleteAction $deleteAction)
   {
-    $find = $this->checkTaskService->checkSoftDelete($id);
+    $find = $checkService->softDeleted($this->taskRepository, $id);
 
-    $this->taskService->softDelete($find);
+    $deleteAction($find);
 
     return $this->success('task deleted', 200);
   }

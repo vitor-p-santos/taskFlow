@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\PriorityTask;
+use App\Enums\StatusTask;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,6 +22,15 @@ class Task extends Model
         'deleted_at',
         'deleted'
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'status' => StatusTask::class,
+            'priority' => PriorityTask::class,
+            'due_date' => 'date',
+        ];
+    }
 
     public function scopeOverdue(Builder $query): Builder
     {
