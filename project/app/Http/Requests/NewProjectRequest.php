@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\StatusProject;
+use App\Domain\Projects\Enums\ProjectStatus;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -27,7 +27,7 @@ class NewProjectRequest extends FormRequest
         return [
             'name' => 'required|string|max:100|regex:/^(?=.{5,}$)(?=(?:.*[A-Za-zÀ-ÿ]){2,})(?!^\d+$).+$/u',
             'description' => 'required|string|min:5|max:255',
-            'status' => ['required', Rule::enum(StatusProject::class)],
+            'status' => ['required', Rule::enum(ProjectStatus::class)],
         ];
     }
 
@@ -51,7 +51,7 @@ class NewProjectRequest extends FormRequest
             'description.max' => 'A descrição deve ter no máximo 255 caracteres.',
 
             'status.required' => 'O status é obrigatório.',
-            'status.enum' => 'O status selecionado é inválido.',
+            'status.enum' => 'O status selecionado deve ser ative ou archived.',
         ];
     }
 }

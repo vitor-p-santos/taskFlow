@@ -2,61 +2,44 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\DeleteAction;
-use App\Actions\NewAction;
-use App\Actions\PatchAction;
-use App\Exceptions\TaskDeleted;
-use App\Http\Requests\GetParamsRequest;
-use App\Http\Requests\NewTaskRequest;
-use App\Http\Requests\PatchTaskRequest;
-use App\Http\Resources\TaskCollection;
-use App\Http\Resources\TaskResource;
-use App\Repositories\ProjectRepository;
-use App\Repositories\TaskRepository;
-use App\Service\CheckService;
+use App\Applications\Tasks\DTOs\{ListTasksFilterDTO, CreateTaskDTO, UpdateTaskDTO};
+use App\Applications\Tasks\UseCases\{ListProjectTasksUseCase, CreateTaskUseCase, UpdateTaskStatusPriorityUseCase, DeleteTaskUseCase};
+use App\Http\Requests\{NewTaskRequest, GetParamsTasksRequest, PatchTaskRequest};
+use App\Http\Resources\{TaskResource, TaskCollection};
 use App\Trait\ResponseTrait;
-
 
 class TasksController
 {
   use ResponseTrait;
 
-  public function __construct(
-    private TaskRepository $taskRepository
-  ) {}
-  public function get(GetParamsRequest $request, int $id, CheckService $checkService, ProjectRepository $projectRepository): TaskCollection
+  public function index(GetParamsTasksRequest $params, int $projectId, ListProjectTasksUseCase $useCase): TaskCollection
   {
-    $findProject = $checkService->exist($projectRepository, $id);
+    $dto = ListTasksFilterDTO::fromArray($params->validated());
 
-    $tasks = $this->taskRepository->get($findProject->id, $request->validated());
+    $tasks = $useCase->execute($dto, $projectId);
 
     return new TaskCollection($tasks);
   }
-  public function store(NewTaskRequest $req, int $id,  NewAction $newAction)
+  public function store(NewTaskRequest $req, int $projectId,  CreateTaskUseCase $useCase)
   {
-    $body = $req->validated();
+    $dto = CreateTaskDTO::fromArray($projectId, $req->validated());
+    $task = $useCase->execute($dto);
 
-    $this->taskRepository->find($id);
-
-    $body['project_id'] = $id;
-
-    $data = $newAction($body);
-
-    return (new TaskResource($data))->response()->setStatusCode(201);
+    return (new TaskResource($task))->response()->setStatusCode(201);
   }
-  public function patch(PatchTaskRequest $req, int $id, CheckService $checkService,  PatchAction $patchAction)
+  
+  public function update(PatchTaskRequest $req, int $taskId, UpdateTaskStatusPriorityUseCase $useCase)
   {
-    $find = $checkService->softDeleted($this->taskRepository, $id);
+    $dto = UpdateTaskDTO::fromArray($req->validated());
 
-    $task = $patchAction($find, $req->validated());
+    $patchTask = $useCase->execute($taskId, $dto);
 
-    return new TaskResource($task);
+    return new TaskResource($patchTask);
   }
-  public function delete(int $id, CheckService $checkService, DeleteAction $deleteAction)
-  {
-    $find = $checkService->softDeleted($this->taskRepository, $id);
 
-    $deleteAction($find);
+  public function destroy(int $taskId, DeleteTaskUseCase $useCase)
+  {
+    $taskDeleted = $useCase->execute($taskId);
 
     return $this->success('task deleted', 200);
   }

@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\DueDateBoolean;
-use App\Enums\PriorityTask;
-use App\Enums\StatusTask;
+use App\Domain\Tasks\Enums\DueDateBoolean;
+use App\Domain\Tasks\Enums\PriorityTask;
+use App\Domain\Tasks\Enums\StatusTask;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;

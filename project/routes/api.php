@@ -10,17 +10,17 @@ Route::middleware('throttle:public-api')->group(function () {
   Route::controller(ProjectsController::class)
     ->group(function () {
 
-      Route::get('/projects', 'get')->name('getProject');
-      Route::post('/projects', 'store')->name('storeProject');
+      Route::get('/projects', 'index')->name('projeect.index');
+      Route::post('/projects', 'store')->name('project.store');
     });
 
   Route::controller(TasksController::class)
     ->group(function () {
 
-      Route::get('/projects/{id}/tasks', 'get')->name('getTasks');
-      Route::post('/projects/{id}/tasks', 'store')->name('storeTask');
+      Route::get('/projects/{id}/tasks', 'index')->name('task.index');
+      Route::post('/projects/{id}/tasks', 'store')->name('task.store');
 
-      Route::patch('/tasks/{id}', 'patch');
-      Route::delete('/tasks/{id}', 'delete');
+      Route::patch('/tasks/{id}', 'update')->name('task.update');
+      Route::delete('/tasks/{id}', 'destroy')->name('task.destroy');
     });
 });

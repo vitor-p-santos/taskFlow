@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\StatusProject;
+use App\Domain\Projects\Enums\ProjectStatus;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -26,7 +26,7 @@ class GetParamsRequest extends FormRequest
     {
         return [
             'name'     => ['nullable', 'string', ],
-            'status'   => ['nullable', Rule::enum(StatusProject::class)],
+            'status'   => ['nullable', Rule::enum(ProjectStatus::class)],
         ];
     }
 

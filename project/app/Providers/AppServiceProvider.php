@@ -14,7 +14,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(
+            \App\Domain\Projects\Contracts\ProjectRepositoryInterface::class,
+            \App\Infrastructure\Database\Repositories\ProjectRepository::class
+        );
+        $this->app->bind(
+            \App\Domain\Tasks\Contracts\TaskRepositoryInterface::class,
+            \App\Infrastructure\Database\Repositories\TaskRepository::class
+        );
     }
 
     /**
