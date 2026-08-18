@@ -2,7 +2,9 @@
 
 namespace App\Infrastructure\Database\Repositories;
 
+use App\Applications\Tasks\DTOs\CreateTaskDTO;
 use App\Applications\Tasks\DTOs\ListTasksFilterDTO;
+use App\Applications\Tasks\DTOs\UpdateTaskDTO;
 use App\Domain\Tasks\Contracts\TaskRepositoryInterface;
 use App\Infrastructure\Database\Models\Task;
 use Illuminate\Contracts\Pagination\CursorPaginator;
@@ -27,15 +29,15 @@ class TaskRepository implements TaskRepositoryInterface
         return Task::withTrashed()->find($id);
     }
 
-    public function create(array $data): Task
+    public function create(CreateTaskDTO $data): Task
     {
-        return Task::create($data);
+        return Task::create($data->toArray());
     }
 
-    public function update(int $taskId, array $data): Task
+    public function updateStatusPriority(int $taskId, UpdateTaskDTO $data): Task
     {
         $task = Task::findOrFail($taskId);
-        $task->update($data);
+        $task->update($data->toArray());
 
         return $task->refresh();
     }

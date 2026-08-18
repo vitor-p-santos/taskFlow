@@ -12,6 +12,6 @@ class UpdateTaskStatusPriorityUseCase{
   ) {}
 
   public function execute(int $taskId, UpdateTaskDTO $dto){
-    return $this->taskRepository->Update($taskId,$dto->toArray());
+    return $this->taskRepository->updateStatusPriority($taskId,$dto);
   }
 }

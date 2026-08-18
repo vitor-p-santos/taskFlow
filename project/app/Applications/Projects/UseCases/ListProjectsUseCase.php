@@ -14,6 +14,6 @@ class ListProjectsUseCase
 
     public function execute(ProjectFilterDto $dto, int $perPage = 15): CursorPaginator
     {
-        return $this->projectRepository->listWithTasksCount($dto->toArray(), $perPage);
+        return $this->projectRepository->listWithTasksCount($dto, $perPage);
     }
 }

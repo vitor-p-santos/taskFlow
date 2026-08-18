@@ -12,6 +12,6 @@ class CreateTaskUseCase
   ) {}
 
   public function execute(CreateTaskDTO $dto){
-    return $this->taskRepository->create($dto->toArray());
+    return $this->taskRepository->create($dto);
   }
 }

@@ -16,9 +16,9 @@ return Application::configure(basePath: dirname(__DIR__))
         
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        // $exceptions->render(function (Throwable $e){
-        //     return response()->json(['success' => false, 'message' => $e->getMessage(), $e->getFile(), $e->getLine()], 500);
-        // });
+        $exceptions->render(function (Throwable $e){
+            return response()->json(['success' => false, 'message' => $e->getMessage(), $e->getFile(), $e->getLine()], 500);
+        });
         $exceptions->render(function (QueryException $e){
             return response()->json(['success' => false, 'message' => 'internal server error'], 500);
         });

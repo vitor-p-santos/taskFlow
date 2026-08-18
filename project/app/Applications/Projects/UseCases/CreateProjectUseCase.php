@@ -14,6 +14,6 @@ class CreateProjectUseCase
 
     public function execute(ProjectCreateDto $dto): Project
     {
-        return $this->projectRepository->create($dto->toArray());
+        return $this->projectRepository->create($dto);
     }
 }
