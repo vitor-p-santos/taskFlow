@@ -10,13 +10,13 @@ use App\Http\Requests\{GetParamsRequest, NewProjectRequest};
 use App\Http\Resources\{ProjectResource, ProjectCollection};
 use Illuminate\Http\JsonResponse;
 
-class ProjectsController extends Controller
+class ProjectsController
 {
   public function index(GetParamsRequest $params, ListProjectsUseCase $useCase): ProjectCollection
   { 
     $dto = ProjectFilterDto::fromArray($params->validated());
     $projects = $useCase->execute($dto);
-
+// dd($projects);
     return new ProjectCollection($projects);
   }
 

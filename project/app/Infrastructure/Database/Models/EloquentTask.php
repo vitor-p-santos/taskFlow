@@ -8,11 +8,14 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Task extends Model
+class EloquentTask extends Model
 {
     use HasFactory, SoftDeletes;
+
+    protected $table = 'tasks';
     public $fillable = [
         'title',
         'description',
@@ -31,6 +34,16 @@ class Task extends Model
             'priority' => PriorityTask::class,
             'due_date' => 'date',
         ];
+    }
+
+    protected static function newFactory()
+    {
+        return \Database\Factories\TaskFactory::new();
+    }
+
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(EloquentProject::class, 'project_id', 'id');
     }
 
     public function scopeOverdue(Builder $query): Builder

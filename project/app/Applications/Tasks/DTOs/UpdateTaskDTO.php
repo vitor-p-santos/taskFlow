@@ -16,7 +16,7 @@ class UpdateTaskDTO
     {
         return new self(
             status: isset($data['status']) ? StatusTask::from($data['status']) : null,
-            priority: isset($data['priority']) ? StatusTask::from($data['priority']) : null,
+            priority: isset($data['priority']) ? PriorityTask::from($data['priority']) : null,
         );
     }
 

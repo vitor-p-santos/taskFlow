@@ -7,18 +7,22 @@ use App\Applications\Tasks\UseCases\{ListProjectTasksUseCase, CreateTaskUseCase,
 use App\Http\Requests\{NewTaskRequest, GetParamsTasksRequest, PatchTaskRequest};
 use App\Http\Resources\{TaskResource, TaskCollection};
 use App\Trait\ResponseTrait;
+use Illuminate\Support\Facades\Log;
 
 class TasksController
 {
   use ResponseTrait;
 
-  public function index(GetParamsTasksRequest $params, int $projectId, ListProjectTasksUseCase $useCase): TaskCollection
+  public function index(GetParamsTasksRequest $params, int $projectId, ListProjectTasksUseCase $useCase)
   {
-    $dto = ListTasksFilterDTO::fromArray($params->validated());
-
-    $tasks = $useCase->execute($dto, $projectId);
-
-    return new TaskCollection($tasks);
+      Log::error(json_encode(['foi algo aqui']));
+      
+      $dto = ListTasksFilterDTO::fromArray($params->validated());
+      
+      $tasks = $useCase->execute($dto, $projectId);
+      
+      
+      return new TaskCollection($tasks);
   }
   public function store(NewTaskRequest $req, int $projectId,  CreateTaskUseCase $useCase)
   {

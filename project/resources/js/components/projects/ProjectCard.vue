@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { Project } from '../../types/projectType';
+import { Project } from '../../types/project';
 import Card from '../../layouts/Card.vue'
 
 const props = defineProps<{
@@ -10,7 +10,7 @@ const props = defineProps<{
 const router = useRouter();
 
 const handleCardClick = () => {
-  router.push(`/projects/${props.project.id}/tasks`);
+  router.push({name: 'tasks',params: { id:props.project.id}});
 };
 
 const getStatusClass = (status: string) => {

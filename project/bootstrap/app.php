@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\JwtMiddleware;
+use App\Http\Middleware\RefrashJwtMiddleware;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -13,16 +15,19 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        
+        $middleware->api(prepend: [
+            JwtMiddleware::class
+        ]);
+
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->render(function (Throwable $e){
-            return response()->json(['success' => false, 'message' => $e->getMessage(), $e->getFile(), $e->getLine()], 500);
-        });
-        $exceptions->render(function (QueryException $e){
+        // $exceptions->render(function (Throwable $e){
+        //     return response()->json(['success' => false, 'message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()], 500);
+        // });
+        $exceptions->render(function (QueryException $e) {
             return response()->json(['success' => false, 'message' => 'internal server error'], 500);
         });
-        $exceptions->render(function (PDOException $e){
+        $exceptions->render(function (PDOException $e) {
             return response()->json(['success' => false, 'message' => 'internal server error'], 500);
         });
     })->create();

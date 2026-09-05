@@ -5,7 +5,7 @@ namespace App\Exceptions;
 use App\Trait\ResponseTrait;
 use Exception;
 
-class ContentDeleted extends Exception
+class TaskNotFoundException extends Exception
 {
     use ResponseTrait;
     public function render()

@@ -1,111 +1,70 @@
-import { Task, TaskCreate } from '../types/Task'
+import { api } from '../lib/axios';
+import { TaskCreate } from '../types/Task';
+
+// ==========================================
+// 📋 TASKS
+// ==========================================
 
 type FetchTaskParams = {
-  id: number
+  id: number;
   filters?: {
-    status?: string
-    priority?: string
-    due_date?: boolean
-  }
-  url?: string
-}
+    status?: string;
+    priority?: string;
+    due_date?: boolean;
+  };
+  url?: string;
+};
 
 export async function fetchTasks({
   id,
   filters,
   url,
 }: FetchTaskParams) {
-  const requestUrl = url
-    ? new URL(url)
-    : new URL(`/api/projects/${id}/tasks`, window.location.origin)
+  const endpoint = url || `/projects/${id}/tasks`;
 
-  if (!url && filters) {
-    if (filters.status) {
-      requestUrl.searchParams.append('status', filters.status)
-    }
-
-    if (filters.priority) {
-      requestUrl.searchParams.append('priority', filters.priority)
-    }
-
-    if (filters.due_date) {
-      requestUrl.searchParams.append('due_date', 'true')
-    }
-  }
-
-  const response = await fetch(requestUrl.toString(), {
-    headers: {
-      Accept: 'application/json',
+  const response = await api.get(endpoint, {
+    params: {
+      status: filters?.status,
+      priority: filters?.priority,
+      due_date: filters?.due_date ? 'true' : undefined,
     },
-  })
+  });
 
-  const resp = await response.json()
-
-  if (!response.ok) {
-    throw new Error('Por favor tente novamente mais tarde!')
-  }
-
-  return resp
+  return response.data;
 }
 
 export async function createTask(
   projectId: number,
   taskData: TaskCreate
 ) {
-  const response = await fetch(`/api/projects/${projectId}/tasks`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify(taskData),
-  })
-
-  const resp = await response.json()
-
-  if (!response.ok) {
-    throw resp.errors
+  try {
+    const response = await api.post(`/projects/${projectId}/tasks`, taskData);
+    return response.data;
+  } catch (err: any) {
+    throw err.response?.data?.errors || 'Erro ao criar tarefa';
   }
-
-  return resp
 }
 
 export async function updateTask(
   taskId: number,
   patchData: {
-    status?: string
-    priority?: string
+    status?: string;
+    priority?: string;
   }
 ) {
-  const response = await fetch(`/api/tasks/${taskId}`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify(patchData),
-  })
-
-  const resp = await response.json()
-
-  if (!response.ok) {
-    throw new Error('Falha ao atualizar a tarefa. Tente novamente')
+  try {
+    const response = await api.patch(`/tasks/${taskId}`, patchData);
+    return response.data;
+  } catch (err: any) {
+    throw new Error(err.response?.data?.message || 'Falha ao atualizar a tarefa. Tente novamente');
   }
-
-  return resp
 }
 
 export async function removeTask(taskId: number) {
-  const response = await fetch(`/api/tasks/${taskId}`, {
-    method: 'DELETE',
-    headers: {
-      Accept: 'application/json',
-    },
-  })
-
-  const resp = await response.json()
-
-  if (!response.ok) {
-    throw new Error('Falha ao deletar a tarefa. Tente novamente')
+  try {
+    const response = await api.delete(`/tasks/${taskId}`);
+    return response.data;
+  } catch (err: any) {
+    throw new Error(err.response?.data?.message || 'Falha ao deletar a tarefa. Tente novamente');
   }
 }

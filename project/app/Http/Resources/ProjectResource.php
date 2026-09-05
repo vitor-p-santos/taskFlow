@@ -25,7 +25,7 @@ class ProjectResource extends JsonResource
             'description' => $this->description,
             'status' => $this->status,
             'created_at' => Carbon::parse($this->created_at)->format('d/m/Y'),
-            'tasks_count' => $this->whenHas('tasks_count', $this->tasks_count),
+            'tasks_count' => $this->whenHas('tasks_count'),
         ];
     }
 

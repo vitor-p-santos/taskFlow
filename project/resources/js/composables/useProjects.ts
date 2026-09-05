@@ -1,49 +1,37 @@
-import { ProjectCreate } from '../types/projectType'
+import { api } from '../lib/axios';
+import { ProjectCreate } from '../types/project'
+
+// ==========================================
+// 📁 PROJECTS
+// ==========================================
+
+
 
 export async function fetchProjects(
-  url = '/api/projects',
+  url = '/projects',
   filters?: { name?: string; status?: string }
 ) {
-  const requestUrl = new URL(url, window.location.origin)
+  try{
 
-  if (filters?.status) {
-    requestUrl.searchParams.set('status', filters.status)
+    const response = await api.get(url, {
+      params: {
+        status: filters?.status,
+        name: filters?.name,
+      },
+    });
+    
+    return response.data;
+  }catch(err : any){
+    
   }
-
-  if (filters?.name) {
-    requestUrl.searchParams.set('name', filters.name)
-  }
-
-  const response = await fetch(requestUrl.toString(), {
-    headers: {
-      Accept: 'application/json',
-    },
-  })
-
-  const resp = await response.json()
-
-  if (!response.ok) {
-    throw new Error('Por favor tente novamente mais tarde!')
-  }
-
-  return resp
 }
 
 export async function createProject(data: ProjectCreate) {
-  const response = await fetch('/api/projects', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-
-  const resp = await response.json()
-
-  if (!response.ok) {
-    throw resp.errors || resp.message
+  try {
+    const response = await api.post('/projects', data);
+    return response.data;
+  } catch (err: any) {
+    throw err.response?.data?.errors || err.response?.data?.message || 'Erro ao criar projeto';
   }
-
-  return resp
 }
+

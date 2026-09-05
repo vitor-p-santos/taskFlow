@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { Project, ProjectCreate } from '../types/projectType'
+import { Project, ProjectCreate } from '../types/project'
 import {
   fetchProjects,
   createProject,

@@ -6,14 +6,15 @@ use App\Applications\Tasks\DTOs\CreateTaskDTO;
 use App\Applications\Tasks\DTOs\ListTasksFilterDTO;
 use App\Applications\Tasks\DTOs\UpdateTaskDTO;
 use App\Domain\Tasks\Contracts\TaskRepositoryInterface;
-use App\Infrastructure\Database\Models\Task;
+use App\Domain\Tasks\Entities\Task;
+use App\Infrastructure\Database\Models\EloquentTask;
 use Illuminate\Contracts\Pagination\CursorPaginator;
 
 class TaskRepository implements TaskRepositoryInterface
 {
     public function getByProjectId(ListTasksFilterDTO $filters, int $projectId): CursorPaginator
     {
-        return Task::query()
+        return EloquentTask::query()
             ->where('project_id', $projectId)
             ->active()
             ->when($filters->status, fn($query, $status) => $query->where('status', $status))
@@ -24,19 +25,26 @@ class TaskRepository implements TaskRepositoryInterface
             ->withQueryString();
     }
 
-    public function findWithTrashed(int $id): ?Task
+    public function findWithTrashed(int $id): EloquentTask
     {
-        return Task::withTrashed()->find($id);
+        return EloquentTask::withTrashed()->find($id);
     }
 
-    public function create(CreateTaskDTO $data): Task
+    public function create(Task $task): EloquentTask
     {
-        return Task::create($data->toArray());
+        return EloquentTask::create([
+            'project_id' => $task->projectId,
+            'title' => $task->title,
+            'description' => $task->description,
+            'status' => $task->status->value,
+            'priority' => $task->priority->value,
+            'due_date' => $task->dueDate,
+        ]);
     }
 
-    public function updateStatusPriority(int $taskId, UpdateTaskDTO $data): Task
+    public function updateStatusPriority(int $taskId, UpdateTaskDTO $data): EloquentTask
     {
-        $task = Task::findOrFail($taskId);
+        $task = EloquentTask::findOrFail($taskId);
         $task->update($data->toArray());
 
         return $task->refresh();
@@ -44,7 +52,7 @@ class TaskRepository implements TaskRepositoryInterface
 
     public function delete(int $taskId): bool
     {
-        $task = Task::findOrFail($taskId);
+        $task = EloquentTask::findOrFail($taskId);
         
         return (bool) $task->delete();
     }

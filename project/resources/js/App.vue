@@ -3,6 +3,6 @@ import AppToast from "./components/AppToast.vue";
 </script>
 
 <template>
-  <AppToast/>
+  <AppToast />
   <router-view />
 </template>

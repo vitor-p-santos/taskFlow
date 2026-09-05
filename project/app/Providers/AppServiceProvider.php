@@ -18,9 +18,25 @@ class AppServiceProvider extends ServiceProvider
             \App\Domain\Projects\Contracts\ProjectRepositoryInterface::class,
             \App\Infrastructure\Database\Repositories\ProjectRepository::class
         );
+
         $this->app->bind(
             \App\Domain\Tasks\Contracts\TaskRepositoryInterface::class,
             \App\Infrastructure\Database\Repositories\TaskRepository::class
+        );
+
+        $this->app->bind(
+            \App\Domain\Users\Contracts\UserRepositoryInterface::class,
+            \App\Infrastructure\Database\Repositories\UserRepository::class
+        );
+
+        $this->app->bind(
+            \App\Applications\Auth\Ports\TokenGeneratorPort::class,
+            \App\Infrastructure\Auth\JwtAdapter::class
+        );
+        
+        $this->app->bind(
+            \App\Domain\Users\Contracts\PasswordHasherInterface::class,
+            \App\Infrastructure\Sercurity\LaravelPasswordHasher::class
         );
     }
 

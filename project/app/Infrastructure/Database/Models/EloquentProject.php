@@ -6,18 +6,26 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Project extends Model
+class EloquentProject extends Model
 {
     use HasFactory;
+
+    protected $table = 'projects';
+
     protected $fillable = [
+        'user_id',
         'name',
         'description',
         'status',
     ];
 
+    protected static function newFactory()
+    {
+        return \Database\Factories\ProjectFactory::new();
+    }
     public function tasks(): HasMany
     {
-        return $this->hasMany(Task::class, 'project_id', 'id')
+        return $this->hasMany(EloquentTask::class, 'project_id', 'id')
             ->whereNull('deleted_at');
     }
 }
