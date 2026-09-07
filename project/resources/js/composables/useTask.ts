@@ -1,10 +1,6 @@
 import { api } from '../lib/axios';
 import { TaskCreate } from '../types/Task';
 
-// ==========================================
-// 📋 TASKS
-// ==========================================
-
 type FetchTaskParams = {
   id: number;
   filters?: {
@@ -41,7 +37,7 @@ export async function createTask(
     const response = await api.post(`/projects/${projectId}/tasks`, taskData);
     return response.data;
   } catch (err: any) {
-    throw err.response?.data?.errors || 'Erro ao criar tarefa';
+    throw err.validations;
   }
 }
 

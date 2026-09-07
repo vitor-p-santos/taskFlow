@@ -33,9 +33,4 @@ class User
     {
         return $this->password;
     }
-
-    // public function getRole(): ?string
-    // {
-    //     return $this->role->value;
-    // }
 }

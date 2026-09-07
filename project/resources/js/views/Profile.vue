@@ -4,7 +4,8 @@ import NavBar from '../layouts/NavBar.vue'
 import { onMounted, reactive } from 'vue';
 import { useAuthStore } from '../stores/AuthStore.ts';
 import { storeToRefs } from 'pinia';
-
+import { useRouter } from 'vue-router';
+const router = useRouter();
 const authStore = useAuthStore();
 const { statistic, loading } = storeToRefs(authStore);
 
@@ -23,6 +24,10 @@ function formatDate(date?: string): string {
   return `${dia}/${mes}/${ano}`;
 }
 
+const logout = async () => {
+  await authStore.logout(true)
+  router.push({name: 'auth'})
+}
 
 </script>
 
@@ -74,9 +79,9 @@ function formatDate(date?: string): string {
             <span class="text-zinc-400 font-medium">Criado em:
               {{ formatDate(authStore.user?.created_at)}}
             </span>
-            <button
+            <button v-on:click="logout"
               class="bg-red-900/70 rounded-xl p-0.5 transition-transform duration-200 hover:-translate-y-1 hover:bg-red-900">
-              Deletar conta
+              Sair
             </button>
           </div>
         </section>

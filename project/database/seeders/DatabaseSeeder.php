@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Infrastructure\Database\Models\EloquentProject;
 use App\Infrastructure\Database\Models\EloquentTask;
+use App\Infrastructure\Database\Models\EloquentUser;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
@@ -14,11 +15,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // 🔹 Cria um usuário de teste e pega o UUID gerado automaticamente
+        $user = EloquentUser::factory()->create([
+            'name' => 'Usuário Teste',
+            'email' => 'teste@taskflow.com',
+        ]);
+
         // -------------------------------------------------------------
         // PROJETO 1: Redesign do Website Institucional (Ativo)
         // -------------------------------------------------------------
         $project1 = EloquentProject::factory()->create([
-            'user_id' =>  1,
+            'user_id' => $user->id, // Usa o UUID do usuário criado acima
             'name' => 'Redesign do Portal Institucional',
             'description' => 'Modernização da interface pública da empresa, focando em responsividade, SEO e acessibilidade (WCAG).',
             'status' => 'active'
@@ -65,7 +72,7 @@ class DatabaseSeeder extends Seeder
         // PROJETO 2: Módulo de Cobrança Recorrente (Em Espera / Planejamento)
         // -------------------------------------------------------------
         $project2 = EloquentProject::factory()->create([
-            'user_id' =>  1,
+            'user_id' => $user->id,
             'name' => 'Integração de Assinaturas (Stripe)',
             'description' => 'Implementação de planos recorrentes (mensal/anual) e tratamento de falhas de pagamento via Webhooks.',
             'status' => 'active'
@@ -112,7 +119,7 @@ class DatabaseSeeder extends Seeder
         // PROJETO 3: Legado / Arquivado (Histórico)
         // -------------------------------------------------------------
         $project3 = EloquentProject::factory()->create([
-            'user_id' =>  1,
+            'user_id' => $user->id,
             'name' => 'Migração de Servidor Físico para AWS (2025)',
             'description' => 'Desativação do data center local e migração de toda a infraestrutura para instâncias EC2 e RDS.',
             'status' => 'archived'

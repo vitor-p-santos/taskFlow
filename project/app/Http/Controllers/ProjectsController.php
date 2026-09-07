@@ -6,7 +6,7 @@ use App\Applications\Projects\DTOs\ProjectCreateDto;
 use App\Applications\Projects\DTOs\ProjectFilterDto;
 use App\Applications\Projects\UseCases\CreateProjectUseCase;
 use App\Applications\Projects\UseCases\ListProjectsUseCase;
-use App\Http\Requests\{GetParamsRequest, NewProjectRequest};
+use App\Http\Requests\Projects\{GetParamsRequest, NewProjectRequest};
 use App\Http\Resources\{ProjectResource, ProjectCollection};
 use Illuminate\Http\JsonResponse;
 

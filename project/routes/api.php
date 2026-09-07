@@ -26,7 +26,7 @@ Route::middleware(['throttle:public-api'])->group(function () {
   // ==========================================
   // 👤 DOMÍNIO: USERS
   // ==========================================
-  Route::prefix('users')->controller(AuthController::class)->group(function () {
+  Route::prefix('users')->controller(UserController::class)->group(function () {
     Route::post('/', 'register');
 
     Route::middleware('auth:api')->group(function () {

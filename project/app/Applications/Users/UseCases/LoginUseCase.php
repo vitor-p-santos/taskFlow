@@ -5,8 +5,9 @@ namespace App\Applications\Users\UseCases;
 use App\Applications\Users\DTOs\LoginUserDto;
 use App\Domain\Users\Contracts\UserRepositoryInterface;
 use App\Applications\Auth\Ports\TokenGeneratorPort;
+use App\Applications\Users\Exceptions\CredentialsException;
 use App\Domain\Users\Contracts\PasswordHasherInterface;
-use Exception;
+use App\Domain\Users\Rules\EmailGuard;
 
 class LoginUseCase
 {
@@ -18,10 +19,12 @@ class LoginUseCase
 
   public function execute(LoginUserDto $dto): array
   {
+    EmailGuard::check($dto->email);
     $user = $this->userRepository->findByEmail($dto->email);
-
+  
     if (!$user) {
-      throw new Exception('erro');
+
+      throw new CredentialsException();
     }
 
     $hasher = $this->passwordHasher->check(
@@ -30,7 +33,7 @@ class LoginUseCase
     );
 
     if (!$hasher) {
-      // throw new Exception('erro');
+      throw new CredentialsException();
     }
 
     return $this->tokenGenerator->generateTokens($user);

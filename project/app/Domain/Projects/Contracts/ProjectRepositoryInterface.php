@@ -9,7 +9,7 @@ use Illuminate\Contracts\Pagination\CursorPaginator;
 
 interface ProjectRepositoryInterface
 {    
-    public function getDashboardStatistics(int $userId): array;
-    public function listWithTasksCount(ProjectFilterDto $filterData, int $userId, int $perPage = 15): CursorPaginator;
+    public function getDashboardStatistics(string $userId): array;
+    public function listWithTasksCount(ProjectFilterDto $filterData, string $userId, int $perPage = 15): CursorPaginator;
     public function create(Project $project): EloquentProject;
 }

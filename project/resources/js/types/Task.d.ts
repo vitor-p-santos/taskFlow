@@ -1,5 +1,5 @@
 
-export type Task = {
+export interface Task {
   id: number
   title: string
   description: string
@@ -9,7 +9,7 @@ export type Task = {
   created_at: string
 }
 
-export type FetchTaskParams = {
+export interface FetchTaskParams {
   id: number
   filters?: {
     status?: string
@@ -20,7 +20,7 @@ export type FetchTaskParams = {
 }
 
 
-export type TaskCreate = {
+export interface TaskCreate {
   title: string
   description: string
   status: string
@@ -29,7 +29,7 @@ export type TaskCreate = {
 }
 
 
-export type patchTask = {
+export interface patchTask {
   status?: string,
   priority?: string,
 }

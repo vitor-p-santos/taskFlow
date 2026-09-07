@@ -1,12 +1,6 @@
 import { api } from '../lib/axios';
 import { ProjectCreate } from '../types/project'
 
-// ==========================================
-// 📁 PROJECTS
-// ==========================================
-
-
-
 export async function fetchProjects(
   url = '/projects',
   filters?: { name?: string; status?: string }
@@ -22,7 +16,7 @@ export async function fetchProjects(
     
     return response.data;
   }catch(err : any){
-    
+    throw err.response?.data?.errors || err.response?.data?.message || 'Erro ao criar projeto';
   }
 }
 
@@ -31,7 +25,7 @@ export async function createProject(data: ProjectCreate) {
     const response = await api.post('/projects', data);
     return response.data;
   } catch (err: any) {
-    throw err.response?.data?.errors || err.response?.data?.message || 'Erro ao criar projeto';
+    throw err.validations;
   }
 }
 

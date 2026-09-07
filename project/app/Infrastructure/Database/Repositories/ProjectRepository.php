@@ -11,7 +11,7 @@ use Illuminate\Contracts\Pagination\CursorPaginator;
 
 class ProjectRepository implements ProjectRepositoryInterface
 {
-    public function getDashboardStatistics(int $userId): array
+    public function getDashboardStatistics(string $userId): array
     {
         $projectStats = EloquentProject::where('user_id', $userId)
             ->selectRaw('count(*) as total')
@@ -42,9 +42,9 @@ class ProjectRepository implements ProjectRepositoryInterface
             ]
         ];
     }
-    public function listWithTasksCount(ProjectFilterDto $filterData, int $userId, int $perPage = 15): CursorPaginator
+    public function listWithTasksCount(ProjectFilterDto $filterData, string $userId, int $perPage = 15): CursorPaginator
     {
-        $projects = EloquentProject::query()
+        $projects = EloquentProject::query()->where('user_id', $userId)
             ->withCount('tasks')
             ->latest('id')
             ->when($filterData->name, fn($projects, $name) => $projects->where('name', 'LIKE', "%{$name}%"))

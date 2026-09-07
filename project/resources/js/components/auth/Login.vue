@@ -1,46 +1,58 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
-import { useAuthStore } from '../../stores/AuthStore';
-import { storeToRefs } from 'pinia';
-import { useRouter } from 'vue-router';
+import { reactive, ref } from 'vue';
+import type { loginUser } from '../../types/User';
+import { Eye, EyeOff } from 'lucide-vue-next';
 
-const router = useRouter();
+defineProps<{
+  loading: boolean;
+  error: any;
+}>();
 
-const AuthStore = useAuthStore();
-const { loading, error } = storeToRefs(AuthStore);
+const emit = defineEmits<{
+  (e: 'submit', payload: loginUser): void;
+}>();
 
-const form = reactive<{ email: string; password: string }>({
+const form = reactive<loginUser>({
   email: '',
   password: ''
 });
 
-const handleSubmit = async () => {
-  try {
-    await AuthStore.loginAuth(form.email, form.password);
+const showPassword = ref(false);
 
-    router.push({name: 'projects'});
-    
-  } catch (err) {
-  }
+const handleSubmit = () => {
+  emit('submit', { ...form });
 };
 </script>
 
 <template>
   <form class="flex flex-col gap-3 w-full" @submit.prevent="handleSubmit">
-    <div v-if="error" class="text-xs text-red-400 bg-red-950/50 border border-red-800/50 rounded-lg px-3 py-2">
-      {{ error }}
+    
+    <div v-if="error?.message" class="text-xs text-center text-red-400 bg-red-950/50 border border-red-800/50 rounded-lg px-3 py-2">
+      {{ error.message }}
     </div>
 
     <div class="flex flex-col gap-1">
       <label for="email" class="text-xs font-medium text-zinc-300">Email</label>
-      <input type="email" name="email" id="email" placeholder="seu@email.com" v-model="form.email"
+      <input type="email" name="email" id="email" placeholder="seu@email.com" v-model="form.email" required
         class="w-full bg-zinc-900/90 border border-zinc-700/80 rounded-lg px-3 py-1.5 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-400 focus:ring-1 focus:ring-zinc-400 transition-colors">
+      <span v-if="error?.validations?.email" class="text-red-400 text-xs">
+        {{ error.validations.email[0] }}
+      </span>
     </div>
 
     <div class="flex flex-col gap-1">
       <label for="password" class="text-xs font-medium text-zinc-300">Senha</label>
-      <input type="password" name="password" id="password" placeholder="••••••••" v-model="form.password"
-        class="w-full bg-zinc-900/90 border border-zinc-700/80 rounded-lg px-3 py-1.5 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-400 focus:ring-1 focus:ring-zinc-400 transition-colors">
+      <div class="relative w-full">
+        <input :type="showPassword ? 'text' : 'password'" name="password" id="password" placeholder="••••••••" v-model="form.password" required
+          class="w-full bg-zinc-900/90 border border-zinc-700/80 rounded-lg px-3 py-1.5 pr-8 text-xs text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-zinc-400 focus:ring-1 focus:ring-zinc-400 transition-colors">
+        <button type="button" @click="showPassword = !showPassword"
+          class="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-200 cursor-pointer">
+          <component :is="showPassword ? EyeOff : Eye" class="w-4 h-4" />
+        </button>
+      </div>
+      <span v-if="error?.validations?.password" class="text-red-400 text-xs">
+        {{ error.validations.password[0] }}
+      </span>
     </div>
 
     <button type="submit" :disabled="loading"

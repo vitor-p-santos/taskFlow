@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Tasks;
 
 use App\Domain\Tasks\Enums\PriorityTask;
 use App\Domain\Tasks\Enums\StatusTask;

@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Projects;
 
-use App\Domain\Tasks\Enums\DueDateBoolean;
-use App\Domain\Tasks\Enums\PriorityTask;
-use App\Domain\Tasks\Enums\StatusTask;
+use App\Domain\Projects\Enums\ProjectStatus;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class GetParamsTasksRequest extends FormRequest
+class GetParamsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,9 +25,8 @@ class GetParamsTasksRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status'   => ['nullable', Rule::enum(StatusTask::class)],
-            'priority' => ['nullable', Rule::enum(PriorityTask::class)],
-            'due_date' => ['nullable', Rule::enum(DueDateBoolean::class)],
+            'name'     => ['nullable', 'string', ],
+            'status'   => ['nullable', Rule::enum(ProjectStatus::class)],
         ];
     }
 
@@ -41,9 +38,8 @@ class GetParamsTasksRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'status.enum'      => 'O status selecionado é inválido.',
-            'priority.enum'    => 'A prioridade selecionada é inválida.',
-            'due_date.enum' => 'O filtro de data de vencimento deve ser true.',
+            'name.string'          => 'o parametro name é invalido',
+            'status.enum'          => 'O parametro status é invalido.',
         ];
     }
 }

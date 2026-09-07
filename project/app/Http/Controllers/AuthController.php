@@ -11,26 +11,8 @@ use App\Trait\ResponseTrait;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cookie;
 
-class AuthController
+class AuthController extends Controller
 {
-    use ResponseTrait;
-
-    // Helper genérico para criar qualquer cookie HTTP-Only com segurança
-    private function getCookie($name, $token)
-    {
-        return cookie(
-            $name,
-            $token,
-             20160 * 60,
-            '/',
-            null,
-            false, // true em produção com HTTPS
-            true,  // HttpOnly
-            false,
-            'Lax'
-        );
-    }
-
     public function login(LoginRequest $req, LoginUseCase $useCase): JsonResponse
     {
         $dto = LoginUserDto::fromArray($req->validated());
@@ -42,19 +24,6 @@ class AuthController
             'message' => 'Login efetuado com sucesso',
             'expires_in' => $result['expires_in']
         ])->cookie($accessCookie);
-    }
-
-    public function register(RegisterRequest $req, CreateUserUseCase $useCase): JsonResponse
-    {
-        $dto = CreateUserDto::fromArray($req->validated());
-        $result = $useCase->execute($dto);
-
-        $accessCookie = $this->getCookie('access_token', $result['access_token']);
-
-        return response()->json([
-            'message' => 'Usuário registrado',
-            'expires_in' => $result['expires_in']
-        ], 201)->cookie($accessCookie);
     }
 
     public function refresh(RefreshTokenUseCase $useCase): JsonResponse
@@ -82,13 +51,5 @@ class AuthController
             ->withCookie($clearRefresh);
     }
 
-    public function me(GetMeUseCase $useCase)
-    {
-        return $useCase->execute();
-    }
-
-    public function statistic(GetStatisticUseCase $useCase)
-    {
-        return $useCase->execute();
-    }
+    
 }

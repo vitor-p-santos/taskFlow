@@ -7,6 +7,7 @@ use App\Domain\Users\Contracts\UserRepositoryInterface;
 use App\Applications\Auth\Ports\TokenGeneratorPort;
 use App\Domain\Users\Contracts\PasswordHasherInterface;
 use App\Domain\Users\Entities\User;
+use App\Domain\Users\Rules\EmailGuard;
 
 class CreateUserUseCase
 {
@@ -18,6 +19,8 @@ class CreateUserUseCase
 
   public function execute(CreateUserDto $dto): array
   {
+    EmailGuard::check($dto->email);
+
     $passwordHash = $this->passwordHasher->make($dto->password);
 
     $user = new User(

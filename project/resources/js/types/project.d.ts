@@ -7,13 +7,16 @@ export interface Project {
   tasks_count: number
 }
 
-export type ProjectCreate = {
+export interface FetchProjectParams 
+{ name: string; status: string }
+
+export interface ProjectCreate {
   name: string
   status: string
   description: string
 }
 
-export type ProjectUpdate = {
+export interface ProjectUpdate {
   name?: string
   status?: string
   description?: string

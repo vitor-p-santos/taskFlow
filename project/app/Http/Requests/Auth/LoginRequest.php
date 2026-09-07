@@ -23,8 +23,8 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email', 'exists:users,email'],
-            'password' => ['required',],
+            'email' => ['required', 'email'],
+            'password' => ['required',  'min:8'],
         ];
     }
 
@@ -34,7 +34,6 @@ class LoginRequest extends FormRequest
      
             'email.required' => 'O e-mail é obrigatório.',
             'email.email' => 'Informe um e-mail válido.',
-            'email.exists' => 'Este e-mail já está sendo utilizado.',
 
             'password.required' => 'A senha é obrigatória.',
             'password.min' => 'A senha deve ter no mínimo :min caracteres.',

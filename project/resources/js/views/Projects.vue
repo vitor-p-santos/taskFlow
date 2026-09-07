@@ -11,10 +11,9 @@ import Loading from '../components/Loading.vue'
 import Paginate from '../components/paginate.vue'
 
 import { useProjectsStore } from '../stores/ProjectStore'
-import { ProjectCreate } from '../types/project'
+import { FetchProjectParams, ProjectCreate } from '../types/project'
 import { errorToast, successToast } from '../lib/toast'
 import { Plus } from 'lucide-vue-next'
-import { useAuthStore } from '../stores/AuthStore.ts'
 
 const projectStore = useProjectsStore()
 const {
@@ -28,7 +27,7 @@ const {
 const isOpen = ref(false)
 const modalError = ref<any>(null)
 const modalLoading = ref(false)
-const filterParams = reactive<{ name: string; status: string }>({ name: '', status: '' })
+const filterParams = reactive<FetchProjectParams>({ name: '', status: '' })
 
 onMounted(() => {
   projectStore.load()

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Applications\Tasks\DTOs\{ListTasksFilterDTO, CreateTaskDTO, UpdateTaskDTO};
 use App\Applications\Tasks\UseCases\{ListProjectTasksUseCase, CreateTaskUseCase, UpdateTaskStatusPriorityUseCase, DeleteTaskUseCase};
-use App\Http\Requests\{NewTaskRequest, GetParamsTasksRequest, PatchTaskRequest};
+use App\Http\Requests\Tasks\{NewTaskRequest, GetParamsTasksRequest, PatchTaskRequest};
 use App\Http\Resources\{TaskResource, TaskCollection};
 use App\Trait\ResponseTrait;
 use Illuminate\Support\Facades\Log;
