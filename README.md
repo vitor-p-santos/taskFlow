@@ -188,5 +188,8 @@ Aplicação Principal (Frontend): http://localhost
 API (Backend): http://localhost/api
 
 > [!NOTE]
-> Quando quiser parar a execução do projeto e desligar os containers, basta rodar ./vendor/bin/sail down no terminal.
+> Quando quiser parar a execução do projeto e desligar os containers, basta rodar no terminal.
 
+```bash
+ ./vendor/bin/sail down
+```
