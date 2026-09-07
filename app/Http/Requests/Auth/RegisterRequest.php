@@ -44,7 +44,7 @@ class RegisterRequest extends FormRequest
             'email.unique' => 'Este e-mail já está sendo utilizado.',
 
             'password.required' => 'A senha é obrigatória.',
-            'password.regex' => 'A senha deve ter pelo menos 1 maiúscula, 1 minúscula, 1 número e 1 caractere especial.',
+            'password.regex' => 'A senha deve ter no mínimo 8 caracteres, contendo 1 letra maiúscula, 1 minúscula, 1 número e 1 caractere especial.',
             'password.same' => 'As senhas não coincidem.',
 
             'confirmPassword.required' => 'A confirmação de senha é obrigatória.',

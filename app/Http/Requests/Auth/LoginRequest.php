@@ -24,20 +24,19 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => ['required', 'email'],
-            'password' => ['required',  'min:8'],
+            'password' => ['required',  'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/'],
         ];
     }
 
-        public function messages(): array
+    public function messages(): array
     {
         return [
-     
+
             'email.required' => 'O e-mail é obrigatório.',
             'email.email' => 'Informe um e-mail válido.',
 
             'password.required' => 'A senha é obrigatória.',
-            'password.min' => 'A senha deve ter no mínimo :min caracteres.',
-
+            'password.regex' => 'A senha deve ter no mínimo 8 caracteres, contendo 1 letra maiúscula, 1 minúscula, 1 número e 1 caractere especial.',
         ];
     }
 }
