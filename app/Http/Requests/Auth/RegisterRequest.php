@@ -24,9 +24,9 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'min:4', 'max:25'],
+            'name' => ['required', 'string', 'min:4', 'max:25', 'regex:/[A-Za-z]/'],
             'email' => ['required', 'email', 'unique:users,email'],
-            'password' => ['required', 'string', 'min:8', 'same:confirmPassword'],
+            'password' => ['required', 'string', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/', 'same:confirmPassword'],
             'confirmPassword' => ['required', 'string'],
         ];
     }
@@ -37,13 +37,14 @@ class RegisterRequest extends FormRequest
             'name.required' => 'O campo nome é obrigatório.',
             'name.min' => 'O nome deve ter pelo menos :min caracteres.',
             'name.max' => 'O nome não pode ter mais de :max caracteres.',
+            'name.regex' => 'O nome só pode conter letas.',
 
             'email.required' => 'O e-mail é obrigatório.',
             'email.email' => 'Informe um e-mail válido.',
             'email.unique' => 'Este e-mail já está sendo utilizado.',
 
             'password.required' => 'A senha é obrigatória.',
-            'password.min' => 'A senha deve ter no mínimo :min caracteres.',
+            'password.regex' => 'A senha deve ter pelo menos 1 maiúscula, 1 minúscula, 1 número e 1 caractere especial.',
             'password.same' => 'As senhas não coincidem.',
 
             'confirmPassword.required' => 'A confirmação de senha é obrigatória.',

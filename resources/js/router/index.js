@@ -18,20 +18,19 @@ export const router = createRouter({
   routes
 })
 
-// Adicione esta variável fora do guard
 let isAppInitialized = false;
 
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
 
-  if (!authStore.user && !isAppInitialized) {
+  if (!authStore.user?.email && !isAppInitialized) {
     isAppInitialized = true;
-    
+
     try {
       await authStore.fetchUser();
     } catch (err) {
-      await authStore.logout(false); 
-      
+      await authStore.logout(false);
+
       if (to.meta.requiresAuth) {
         return next({ name: 'auth' });
       }
@@ -41,11 +40,11 @@ router.beforeEach(async (to, from, next) => {
   // Lógica de proteção de rotas normal
   if (to.meta.requiresAuth && !authStore.user) {
     return next({ name: 'auth' });
-  } 
-  
+  }
+
   if (to.name === 'auth' && authStore.user) {
     return next({ name: 'projects' });
-  } 
+  }
 
   next();
 });

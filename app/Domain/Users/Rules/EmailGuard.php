@@ -2,7 +2,8 @@
 
 namespace App\Domain\Users\Rules;
 
-use App\Applications\Users\Exceptions\CredentialsException;
+use App\Domain\Users\Exceptions\InvalidEmailException;
+
 class EmailGuard
 {
   static function check(string $email)
@@ -17,7 +18,7 @@ class EmailGuard
     $pattern = $conta . $domino . $extensao;
 
     if (!preg_match($pattern, $email)) {
-      throw new CredentialsException();
+      throw new InvalidEmailException();
     }
   }
 }
