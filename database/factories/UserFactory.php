@@ -25,7 +25,7 @@ class UserFactory extends Factory
             'id' => (string) Str::uuid(), 
             'name' => $this->faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
-            'password' => Hash::make('mudar@123'),
+            'password' => Hash::make('Dev@123@@'),
         ];
     }
 }

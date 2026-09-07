@@ -193,3 +193,7 @@ API (Backend): http://localhost/api
 ```bash
  ./vendor/bin/sail down
 ```
+### 9. usuario criado com -seed gerado para teste
+
+email: **teste@taskflow.com**
+senha: **Dev@123@@**
